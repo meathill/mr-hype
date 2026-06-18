@@ -7,13 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": [
-      "**",
-      "!**/.open-next/**",
-      "!**/.wrangler/**",
-      "!**/cloudflare-env.d.ts",
-      "!design/**"
-    ]
+    "includes": ["**", "!**/.open-next", "!**/.wrangler", "!**/cloudflare-env.d.ts", "!design"]
   },
   "formatter": {
     "enabled": true,
@@ -24,7 +18,7 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "preset": "recommended"
     }
   },
   "javascript": {
