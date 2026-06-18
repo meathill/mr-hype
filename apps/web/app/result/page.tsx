@@ -11,6 +11,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { Wallpaper } from '@/components/wallpaper';
+import { recordGenerationAction, toggleFavoriteAction } from '@/src/actions/data';
+import { useSession } from '@/src/lib/auth-client';
 import { captureNodeToPng, triggerBrowserDownload } from '@/src/lib/download';
 import { useGenerateStore } from '@/src/lib/store';
 
@@ -25,6 +27,9 @@ export default function ResultPage() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [working, setWorking] = useState(false);
   const [toast, setToast] = useState('');
+  const { data: session } = useSession();
+  const loggedIn = Boolean(session?.user);
+  const [faved, setFaved] = useState(false);
 
   useEffect(() => {
     if (!store.result) router.replace('/generate');
@@ -42,11 +47,43 @@ export default function ResultPage() {
       const dataUrl = await captureNodeToPng(exportRef.current);
       setImageUrl(dataUrl);
       setDownloaded(true);
+      const r = store.result;
+      if (loggedIn && r) {
+        void recordGenerationAction({
+          templateId: store.templateId,
+          main: r.main,
+          sub: r.sub,
+          tone: store.tone,
+          goalType: r.goalType,
+          dayNum: DAY_NUM,
+          dateText: DATE_TEXT,
+        });
+      }
     } catch (error) {
       console.error('[download]', error);
       showToast('导出失败了，再试一次。');
     } finally {
       setWorking(false);
+    }
+  }
+
+  async function handleFavorite() {
+    const r = store.result;
+    if (!r) return;
+    if (!loggedIn) {
+      showToast('登录后可把喜欢的壁纸收藏到「我的」。');
+      return;
+    }
+    const res = await toggleFavoriteAction({
+      templateId: store.templateId,
+      main: r.main,
+      sub: r.sub,
+      dayNum: DAY_NUM,
+      dateText: DATE_TEXT,
+    });
+    if (res.ok) {
+      setFaved(res.faved);
+      showToast(res.faved ? '已收藏。在「我的 → 我的收藏」随时再下载。' : '已取消收藏。');
     }
   }
 
@@ -66,10 +103,15 @@ export default function ResultPage() {
         <h1 className="flex-1 text-xl font-extrabold text-ink">这是你的今日鸡血</h1>
         <button
           type="button"
-          onClick={() => showToast('登录后可把喜欢的壁纸收藏到「我的」。')}
-          className="flex size-9 items-center justify-center rounded-md border border-rule-strong bg-paper text-mute"
+          onClick={handleFavorite}
+          aria-label="收藏"
+          className={`flex size-9 items-center justify-center rounded-md border ${
+            faved
+              ? 'border-tongue bg-tongue/10 text-tongue'
+              : 'border-rule-strong bg-paper text-mute'
+          }`}
         >
-          <HeartIcon size={18} />
+          <HeartIcon size={18} weight={faved ? 'fill' : 'regular'} />
         </button>
       </div>
 
