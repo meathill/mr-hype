@@ -1,0 +1,202 @@
+@import "tailwindcss";
+
+/* 暗色：由 [data-theme="dark"] 触发（覆盖下方 token 即可自动生效） */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* =========================================================================
+ * Mui Studio 设计 token（移植自 design/colors_and_type.css）
+ * 字体族走 next/font 注入的变量：--font-fraunces / --font-nunito / --font-jetbrains
+ * ========================================================================= */
+@theme {
+  --font-display:
+    var(--font-fraunces), "Iowan Old Style", "Hoefler Text", "Source Serif Pro", Cambria,
+    "Times New Roman", serif;
+  --font-sans:
+    var(--font-nunito), -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* 柯基黄色系 */
+  --color-fluff: #fbf1d8;
+  --color-corgi: #f3c574;
+  --color-yellow: #e6c34a;
+  --color-yellow-warm: #e6a23a;
+  --color-yellow-deep: #b3851c;
+  --color-tongue: #d8694e;
+
+  /* 暖中性表面 / 墨色 */
+  --color-cream: #fdfaf2;
+  --color-paper: #f6efde;
+  --color-paper-deep: #ede2c5;
+  --color-ink: #3a2e23;
+  --color-ink-soft: #5a4938;
+  --color-mute: #8a7660;
+  --color-rule: #e0d3b8;
+  --color-rule-strong: #c9b790;
+  --color-ink-line: #3a2e23;
+
+  /* 语义色 */
+  --color-success: #4f8a3a;
+  --color-success-bg: #e7eed1;
+  --color-warning: #c9892b;
+  --color-warning-bg: #f9ecc6;
+  --color-danger: #c44a32;
+  --color-danger-bg: #fadfd5;
+  --color-info: #3b6f9a;
+  --color-info-bg: #dceaf4;
+
+  /* 圆角（紧凑） */
+  --radius-xs: 3px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+
+  /* 软阴影 */
+  --shadow-xs: 0 1px 2px 0 rgb(58 46 35 / 0.06);
+  --shadow-sm: 0 1px 3px 0 rgb(58 46 35 / 0.08), 0 1px 2px -1px rgb(58 46 35 / 0.06);
+  --shadow-md: 0 4px 8px -2px rgb(58 46 35 / 0.1), 0 2px 4px -2px rgb(58 46 35 / 0.06);
+  --shadow-lg: 0 10px 20px -5px rgb(58 46 35 / 0.12);
+
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* 暗色 token 覆盖（默认亮色；切到 [data-theme="dark"] 时整体变暗） */
+[data-theme="dark"] {
+  --color-cream: #1a1410;
+  --color-paper: #231b14;
+  --color-paper-deep: #2e2419;
+  --color-ink: #f3e9d5;
+  --color-ink-soft: #d4c4a4;
+  --color-mute: #998973;
+  --color-rule: rgb(243 233 213 / 0.1);
+  --color-rule-strong: rgb(243 233 213 / 0.2);
+  --color-ink-line: rgb(243 233 213 / 0.55);
+  --color-fluff: #38291a;
+  --color-yellow: #ecc94a;
+  --color-yellow-warm: #ecb04a;
+  --color-yellow-deep: #e6b240;
+  --color-tongue: #e8775a;
+  --color-success-bg: #1e2a18;
+  --color-danger-bg: #2a160f;
+}
+
+/* =========================================================================
+ * 基础元素样式
+ * ========================================================================= */
+@layer base {
+  html,
+  body {
+    background: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    background-image: radial-gradient(circle, rgb(58 46 35 / 0.05) 1.2px, transparent 1.2px);
+    background-size: 24px 24px;
+  }
+  [data-theme="dark"] body {
+    background-image: radial-gradient(circle, rgb(243 233 213 / 0.05) 1.2px, transparent 1.2px);
+  }
+  ::selection {
+    background: var(--color-yellow);
+    color: var(--color-ink);
+  }
+}
+
+/* =========================================================================
+ * 设计系统工具类（移植自 colors_and_type.css）
+ * ========================================================================= */
+@layer components {
+  /* 等宽小标签 */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-yellow-deep);
+  }
+
+  /* 卡通块状高亮（正文点睛） */
+  .highlight {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+  }
+  .highlight::before {
+    content: "";
+    position: absolute;
+    left: -2px;
+    right: -2px;
+    bottom: 6%;
+    height: 42%;
+    background: color-mix(in srgb, var(--color-corgi) 80%, transparent);
+    transform: skewY(-1deg);
+    border-radius: 2px;
+    z-index: -1;
+  }
+
+  /* press 立体按钮：底部厚色边模拟厚纸卡片 */
+  .press {
+    box-shadow: 0 3px 0 0 var(--color-yellow-deep);
+    transition:
+      transform 120ms var(--ease-out),
+      box-shadow 120ms;
+  }
+  .press:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 0 0 var(--color-yellow-deep);
+  }
+  .press:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 0 var(--color-yellow-deep);
+  }
+  .press-ink {
+    box-shadow: 0 3px 0 0 var(--color-ink-line);
+    transition:
+      transform 120ms var(--ease-out),
+      box-shadow 120ms;
+  }
+  .press-ink:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 0 0 var(--color-ink-line);
+  }
+  .press-ink:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 0 var(--color-ink-line);
+  }
+
+  /* 背景纹理 */
+  .bg-sun {
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 0%, rgb(243 197 116 / 0.45) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 10% 100%, rgb(251 241 216 / 0.6) 0%, transparent 50%);
+  }
+
+  /* 隐藏滚动条但可滚 */
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+}
+
+@keyframes jx-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes jx-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}

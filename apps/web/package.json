@@ -3,5 +3,33 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "scripts": {}
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate:local": "wrangler d1 migrations apply mr-hype --local",
+    "db:migrate:remote": "wrangler d1 migrations apply mr-hype --remote"
+  },
+  "dependencies": {
+    "@mr-hype/shared": "workspace:*",
+    "@opennextjs/cloudflare": "^1.19.11",
+    "@phosphor-icons/react": "^2.1.10",
+    "next": "^16.2.9",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.1",
+    "@types/node": "^25.9.3",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "tailwindcss": "^4.3.1",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.101.0"
+  }
 }

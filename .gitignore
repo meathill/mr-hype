@@ -8,6 +8,8 @@ dist/
 .open-next/
 out/
 *.tsbuildinfo
+next-env.d.ts
+.turbo/
 
 # Cloudflare / Wrangler
 .wrangler/
