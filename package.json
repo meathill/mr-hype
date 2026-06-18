@@ -1,0 +1,34 @@
+{
+  "name": "mr-hype",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.0.9",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "web": "pnpm --filter @mr-hype/web",
+    "shared": "pnpm --filter @mr-hype/shared"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.0",
+    "turbo": "^2.9.18",
+    "typescript": "^6.0.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@biomejs/biome",
+      "@tailwindcss/oxide",
+      "esbuild",
+      "sharp",
+      "workerd"
+    ]
+  }
+}

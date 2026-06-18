@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&family=Nunito:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="colors_and_type.css">
+<style>
+  body{margin:0;background:#e4dac4}
+  *{box-sizing:border-box}
+  @keyframes jxspin{to{transform:rotate(360deg)}}
+  @keyframes jxpulse{0%,100%{opacity:.45}50%{opacity:1}}
+  .jx-noscroll::-webkit-scrollbar{width:0;height:0}
+  .jx-noscroll{scrollbar-width:none}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#e4dac4;background-image:radial-gradient(circle, rgba(58,46,35,0.05) 1.2px, transparent 1.2px);background-size:24px 24px;padding:36px 28px 72px;font-family:var(--font-sans)">
+
+  <div style="max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+      <div style="width:44px;height:44px;border-radius:11px;overflow:hidden;border:2px solid var(--color-ink);box-shadow:0 3px 0 0 var(--color-ink);background:var(--color-yellow-warm);flex:none">
+        <img src="assets/mui-mark.png" alt="鸡血君" style="width:100%;height:100%;object-fit:cover">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <div style="font-size:24px;font-weight:800;color:var(--color-ink);letter-spacing:-0.02em">鸡血君 · 可点击原型</div>
+        <div style="font-size:13px;color:var(--color-mute)">每日精神燃料 — 输入目标，选语气，生成专属手机锁屏壁纸。直接点下面的手机走一遍完整流程。</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--color-yellow-deep);margin-right:4px">跳转</span>
+      <sc-for list="{{ jumpChips }}" as="j" hint-placeholder-count="6">
+        <button style="font-family:var(--font-mono);font-size:12px;font-weight:700;cursor:pointer;padding:6px 13px;border-radius:999px;border:1px solid var(--color-rule-strong);background:var(--color-paper);color:var(--color-ink-soft)" onClick="{{ j.onPick }}">{{ j.label }}</button>
+      </sc-for>
+      <button style="margin-left:6px;font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--color-mute);background:transparent;border:1px dashed var(--color-rule-strong);border-radius:999px;padding:6px 14px;cursor:pointer" onClick="{{ resetAll }}">↺ 重置</button>
+    </div>
+  </div>
+
+  <!-- ============ MOBILE PROTOTYPE ============ -->
+  <div style="max-width:1320px;margin:32px auto 0;display:flex;gap:40px;align-items:flex-start;flex-wrap:wrap">
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--color-yellow-deep)">移动端 · 可点击</span>
+        <span style="font-size:13px;color:var(--color-mute)">{{ screenTitle }}</span>
+      </div>
+
+      <!-- PHONE -->
+      <div style="width:408px;height:840px;background:#15110b;border-radius:54px;padding:11px;box-shadow:0 24px 50px -12px rgba(58,46,35,0.5), inset 0 0 0 2px #2a2118;flex:none">
+        <div style="position:relative;width:386px;height:818px;border-radius:44px;overflow:hidden;background:var(--color-cream);display:flex;flex-direction:column">
+
+          <!-- status bar -->
+          <div style="height:46px;flex:none;display:flex;align-items:flex-end;justify-content:space-between;padding:0 28px 8px;font-family:var(--font-sans);position:relative;z-index:5">
+            <div style="font-size:15px;font-weight:700;color:var(--color-ink)">9:41</div>
+            <div style="position:absolute;left:50%;top:8px;transform:translateX(-50%);width:108px;height:26px;background:#15110b;border-radius:999px"></div>
+            <div style="display:flex;align-items:center;gap:6px;color:var(--color-ink)">
+              <span style="font-size:12px;font-weight:700">5G</span>
+              <div style="width:22px;height:11px;border:1.5px solid var(--color-ink);border-radius:3px;position:relative;display:flex;align-items:center;padding:1px"><div style="width:13px;height:6px;background:var(--color-ink);border-radius:1px"></div></div>
+            </div>
+          </div>
+
+          <!-- SCROLL CONTENT -->
+          <div class="jx-noscroll" style="flex:1;min-height:0;overflow-y:auto;overflow-x:hidden">
+
+            <!-- ===== HOME ===== -->
+            <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 22px 14px">
+                <div style="display:flex;flex-direction:column;gap:2px">
+                  <div style="font-size:13px;color:var(--color-mute)">{{ todayDate }}</div>
+                  <div style="font-size:20px;font-weight:800;color:var(--color-ink);letter-spacing:-0.01em">准备好今天的鸡血了吗</div>
+                </div>
+                <div style="width:42px;height:42px;border-radius:12px;overflow:hidden;border:2px solid var(--color-ink);flex:none"><img src="assets/mui-mascot.png" style="width:100%;height:100%;object-fit:cover;background:var(--color-corgi)"></div>
+              </div>
+
+              <!-- hero press card -->
+              <div style="margin:0 22px;background:var(--color-cream);border:2px solid var(--color-ink);border-radius:14px;box-shadow:0 4px 0 0 var(--color-ink);padding:22px 20px 20px;position:relative;overflow:hidden">
+                <div style="position:absolute;right:-24px;top:-24px;width:120px;height:120px;border-radius:50%;background:var(--bg-sun);opacity:.5"></div>
+                <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--color-yellow-deep)">每日精神燃料</span>
+                <div style="font-family:var(--font-display);font-weight:800;font-size:30px;line-height:1.18;color:var(--color-ink);margin-top:10px;letter-spacing:-0.01em">每天一张，<br>专属于你的<span style="position:relative;white-space:nowrap">鸡血壁纸<span style="position:absolute;left:-2px;right:-2px;bottom:4%;height:38%;background:color-mix(in srgb, var(--color-corgi) 80%, transparent);transform:skewY(-1deg);border-radius:2px;z-index:-1"></span></span></div>
+                <p style="font-size:14px;color:var(--color-ink-soft);margin-top:12px;line-height:1.6">输入你的目标，选择你的语气，鸡血君会生成一句今天刚好需要的话，并排版成适合手机锁屏的壁纸。</p>
+                <button style="margin-top:18px;width:100%;background:var(--color-yellow);color:var(--color-ink);border:2px solid var(--color-ink);border-radius:10px;box-shadow:0 3px 0 0 var(--color-ink);padding:14px;font-size:16px;font-weight:800;font-family:var(--font-sans);cursor:pointer" onClick="{{ goGenerate }}">生成我的今日鸡血</button>
+                <button style="margin-top:10px;width:100%;background:transparent;color:var(--color-ink-soft);border:none;padding:6px;font-size:14px;font-weight:700;font-family:var(--font-sans);cursor:pointer;text-decoration:underline;text-decoration-color:var(--color-corgi);text-decoration-thickness:2px;text-underline-offset:3px" onClick="{{ goTemplates }}">查看示例壁纸 →</button>
+              </div>
+
+              <!-- example strip -->
+              <div style="padding:22px 0 4px">
+                <div style="padding:0 22px;font-size:13px;font-weight:700;color:var(--color-mute);margin-bottom:10px">最近有人生成了这些 ↓</div>
+                <div class="jx-noscroll" style="display:flex;gap:12px;overflow-x:auto;padding:0 22px 6px">
+                  <sc-for list="{{ stripCards }}" as="s" hint-placeholder-count="6">
+                    <div style="flex:none;border-radius:14px;overflow:hidden;box-shadow:var(--shadow-md);border:1px solid var(--color-rule-strong)">
+                      <dc-import name="Wallpaper" template-id="{{ s.id }}" main="{{ s.show }}" sub="{{ s.showSub }}" w="118" h="210" hint-size="118px,210px"></dc-import>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <!-- how it works -->
+              <div style="padding:20px 22px 4px">
+                <div style="font-size:18px;font-weight:800;color:var(--color-ink);margin-bottom:12px">它怎么工作</div>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <sc-for list="{{ steps }}" as="st" hint-placeholder-count="3">
+                    <div style="display:flex;gap:14px;align-items:flex-start;background:var(--color-paper);border:1px solid var(--color-rule-strong);border-radius:10px;padding:14px">
+                      <div style="width:30px;height:30px;flex:none;border-radius:8px;background:var(--color-yellow);border:2px solid var(--color-ink);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-weight:800;font-size:14px;color:var(--color-ink)">{{ st.n }}</div>
+                      <div style="display:flex;flex-direction:column;gap:3px"><div style="font-size:15px;font-weight:800;color:var(--color-ink)">{{ st.t }}</div><div style="font-size:13px;color:var(--color-mute);line-height:1.5">{{ st.d }}</div></div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <!-- goals -->
+              <div style="padding:20px 22px 4px">
+                <div style="font-size:18px;font-weight:800;color:var(--color-ink);margin-bottom:12px">适合哪些目标</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                  <sc-for list="{{ goalCards }}" as="g" hint-placeholder-count="8">
+                    <div style="background:var(--color-paper);border:1px solid var(--color-rule-strong);border-radius:10px;padding:12px;cursor:pointer;box-shadow:var(--shadow-xs)" onClick="{{ g.onPick }}">
+                      <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px"><span style="width:7px;height:7px;border-radius:50%;background:var(--color-yellow-warm)"></span><span style="font-size:14px;font-weight:800;color:var(--color-ink)">{{ g.name }}</span></div>
+                      <div style="font-size:12px;color:var(--color-mute);line-height:1.5">{{ g.ex }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <!-- personas -->
+              <div style="padding:20px 22px 4px">
+                <div style="font-size:18px;font-weight:800;color:var(--color-ink);margin-bottom:12px">五种语气人格</div>
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <sc-for list="{{ personaCards }}" as="t" hint-placeholder-count="5">
+                    <div style="display:flex;gap:12px;align-items:baseline;padding:11px 14px;background:var(--color-fluff);border-radius:8px;border:1px solid color-mix(in srgb, var(--color-corgi) 45%, transparent)">
+                      <span style="font-size:14px;font-weight:800;color:var(--color-ink);white-space:nowrap;flex:none">{{ t.name }}</span>
+                      <span style="font-size:13px;color:var(--color-ink-soft);line-height:1.5">「{{ t.ex }}」</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <!-- final CTA -->
+              <div style="padding:22px 22px 28px">
+                <div style="background:var(--color-ink);border-radius:14px;padding:24px 20px;text-align:center">
+                  <div style="font-family:var(--font-display);font-weight:800;font-size:24px;color:var(--color-cream);line-height:1.25">今天你想<br>赢下哪一件事？</div>
+                  <button style="margin-top:16px;width:100%;background:var(--color-yellow);color:var(--color-ink);border:none;border-radius:10px;box-shadow:0 3px 0 0 var(--color-yellow-deep);padding:14px;font-size:16px;font-weight:800;font-family:var(--font-sans);cursor:pointer" onClick="{{ goGenerate }}">生成我的第一张鸡血壁纸</button>
+                </div>
+              </div>
+            </div>
+            </sc-if>
+
+            <!-- ===== GENERATE ===== -->
+            <sc-if value="{{ isGenerate }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;padding:0 0 120px">
+              <div style="display:flex;align-items:center;gap:12px;padding:8px 22px 16px">
+                <button style="width:34px;height:34px;border-radius:9px;border:1px solid var(--color-rule-strong);background:var(--color-paper);font-size:18px;color:var(--color-ink);cursor:pointer;display:flex;align-items:center;justify-content:center" onClick="{{ goHome }}">←</button>
+                <div style="font-size:20px;font-weight:800;color:var(--color-ink)">今天你想赢下哪一件事？</div>
+              </div>
+
+              <div style="padding:0 22px;display:flex;flex-direction:column;gap:22px">
+                <div>
+                  <label style="font-size:14px;font-weight:800;color:var(--color-ink);display:block;margin-bottom:8px">我的目标</label>
+                  <textarea value="{{ goalText }}" onChange="{{ onGoalInput }}" placeholder="写下你的目标，越具体越好。例如：我想在 90 天内从 82kg 减到 75kg" style="width:100%;min-height:70px;resize:none;font-family:var(--font-sans);font-size:15px;color:var(--color-ink);background:var(--color-cream);border:1px solid var(--color-rule-strong);border-radius:10px;padding:12px 14px;line-height:1.6;outline:none"></textarea>
+                  <div class="jx-noscroll" style="display:flex;gap:7px;overflow-x:auto;margin-top:9px;padding-bottom:2px">
+                    <sc-for list="{{ goalChips }}" as="g" hint-placeholder-count="8">
+                      <button style="{{ g.style }}" onClick="{{ g.onPick }}">{{ g.name }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+
+                <div>
+                  <label style="font-size:14px;font-weight:800;color:var(--color-ink);display:block;margin-bottom:8px">今天的状态 <span style="color:var(--color-mute);font-weight:500">可选</span></label>
+                  <textarea value="{{ statusText }}" onChange="{{ onStatusInput }}" placeholder="懒、累、焦虑、想放弃，都可以写。例如：最近有点懒，总是想拖延" style="width:100%;min-height:56px;resize:none;font-family:var(--font-sans);font-size:15px;color:var(--color-ink);background:var(--color-cream);border:1px solid var(--color-rule-strong);border-radius:10px;padding:12px 14px;line-height:1.6;outline:none"></textarea>
+                </div>
+
+                <div>
+                  <label style="font-size:14px;font-weight:800;color:var(--color-ink);display:block;margin-bottom:10px">想要的语气</label>
+                  <div style="display:flex;flex-direction:column;gap:8px">
+                    <sc-for list="{{ toneCards }}" as="t" hint-placeholder-count="5">
+                      <div style="{{ t.style }}" onClick="{{ t.onPick }}">
+                        <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:15px;font-weight:800;color:var(--color-ink)">{{ t.name }}</span><span style="{{ t.dot }}"></span></div>
+                        <div style="font-size:13px;color:var(--color-ink-soft);line-height:1.5">「{{ t.ex }}」</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+
+                <div>
+                  <label style="font-size:14px;font-weight:800;color:var(--color-ink);display:block;margin-bottom:10px">视觉风格</label>
+                  <div class="jx-noscroll" style="display:flex;gap:11px;overflow-x:auto;padding-bottom:4px">
+                    <sc-for list="{{ templateCards }}" as="tc" hint-placeholder-count="8">
+                      <div style="{{ tc.thumbStyle }}" onClick="{{ tc.onPick }}">
+                        <div style="border-radius:9px;overflow:hidden"><dc-import name="Wallpaper" template-id="{{ tc.id }}" main="{{ tc.show }}" sub="" w="92" h="163" hint-size="92px,163px"></dc-import></div>
+                        <div style="font-size:12px;font-weight:700;color:var(--color-ink);text-align:center;margin-top:7px">{{ tc.name }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+
+                <div>
+                  <label style="font-size:14px;font-weight:800;color:var(--color-ink);display:block;margin-bottom:10px">壁纸尺寸</label>
+                  <div style="display:flex;gap:8px">
+                    <sc-for list="{{ sizeOpts }}" as="sz" hint-placeholder-count="3">
+                      <button style="{{ sz.style }}" onClick="{{ sz.onPick }}">{{ sz.name }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="position:absolute;left:0;right:0;bottom:0;padding:14px 22px calc(14px + env(safe-area-inset-bottom));background:linear-gradient(to top, var(--color-cream) 70%, transparent);z-index:6">
+              <button style="width:100%;background:var(--color-yellow);color:var(--color-ink);border:2px solid var(--color-ink);border-radius:10px;box-shadow:0 3px 0 0 var(--color-ink);padding:15px;font-size:16px;font-weight:800;font-family:var(--font-sans);cursor:pointer" onClick="{{ generate }}">⚡ 生成今日鸡血</button>
+            </div>
+            </sc-if>
+
+            <!-- ===== LOADING ===== -->
+            <sc-if value="{{ isLoading }}" hint-placeholder-val="{{ false }}">
+            <div style="height:100%;min-height:680px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:40px;text-align:center">
+              <div style="width:64px;height:64px;border-radius:50%;border:4px solid var(--color-paper-deep);border-top-color:var(--color-yellow-warm);animation:jxspin 0.9s linear infinite"></div>
+              <div style="font-family:var(--font-display);font-weight:700;font-size:20px;color:var(--color-ink);line-height:1.45;max-width:260px">{{ loadingText }}</div>
+              <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.14em;color:var(--color-mute);animation:jxpulse 1.4s ease-in-out infinite">CHARGING…</div>
+            </div>
+            </sc-if>
+
+            <!-- ===== RESULT ===== -->
+            <sc-if value="{{ isResult }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;padding:0 0 28px">
+              <div style="display:flex;align-items:center;gap:12px;padding:8px 22px 6px">
+                <button style="width:34px;height:34px;border-radius:9px;border:1px solid var(--color-rule-strong);background:var(--color-paper);font-size:18px;color:var(--color-ink);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none" onClick="{{ goGenerate }}">←</button>
+                <div style="font-size:20px;font-weight:800;color:var(--color-ink);flex:1">这是你的今日鸡血</div>
+                <button style="{{ favBtnStyle }}" onClick="{{ toggleFav }}">{{ favGlyph }}</button>
+              </div>
+
+              <div style="display:flex;justify-content:center;padding:14px 22px 8px">
+                <div style="width:264px;height:534px;background:#15110b;border-radius:38px;padding:8px;box-shadow:0 18px 38px -10px rgba(58,46,35,0.45)">
+                  <div style="width:248px;height:518px;border-radius:31px;overflow:hidden">
+                    <dc-import name="Wallpaper" template-id="{{ templateId }}" main="{{ resMain }}" sub="{{ resSub }}" day-num="{{ dayNum }}" date-text="{{ dateText }}" lock="{{ true }}" w="248" h="518" hint-size="248px,518px"></dc-import>
+                  </div>
+                </div>
+              </div>
+
+              <div style="display:flex;gap:8px;justify-content:center;padding:4px 22px 14px">
+                <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--color-yellow-deep);background:var(--color-fluff);border-radius:999px;padding:5px 12px;letter-spacing:0.08em">{{ resToneName }}</span>
+                <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--color-ink-soft);background:var(--color-paper-deep);border-radius:999px;padding:5px 12px;letter-spacing:0.08em">{{ resTemplateName }}</span>
+              </div>
+
+              <div style="padding:0 22px;display:flex;flex-direction:column;gap:10px">
+                <button style="width:100%;background:var(--color-yellow);color:var(--color-ink);border:2px solid var(--color-ink);border-radius:10px;box-shadow:0 3px 0 0 var(--color-ink);padding:15px;font-size:16px;font-weight:800;font-family:var(--font-sans);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px" onClick="{{ download }}">↓ 下载壁纸</button>
+                <div style="display:flex;gap:8px">
+                  <button style="{{ regenBtnStyle }}" onClick="{{ regen }}">换一句 · 剩 {{ regenLeft }}</button>
+                  <button style="flex:1;background:var(--color-paper);color:var(--color-ink);border:1px solid var(--color-rule-strong);border-radius:10px;padding:13px;font-size:14px;font-weight:700;font-family:var(--font-sans);cursor:pointer" onClick="{{ nextTemplate }}">换模板</button>
+                  <button style="flex:1;background:var(--color-paper);color:var(--color-ink);border:1px solid var(--color-rule-strong);border-radius:10px;padding:13px;font-size:14px;font-weight:700;font-family:var(--font-sans);cursor:pointer" onClick="{{ share }}">分享同款</button>
+                </div>
+              </div>
+
+              <sc-if value="{{ downloaded }}" hint-placeholder-val="{{ false }}">
+              <div style="margin:16px 22px 0;background:var(--color-success-bg);border:1px solid var(--color-success);border-radius:10px;padding:13px 14px;display:flex;flex-direction:column;gap:4px">
+                <div style="font-size:14px;font-weight:800;color:var(--color-success)">✓ 已保存到手机</div>
+                <div style="font-size:13px;color:var(--color-ink-soft);line-height:1.5">现在可以把它设为锁屏。让今天每一次点亮屏幕，都把你拉回目标。</div>
+                <button style="align-self:flex-start;background:transparent;border:none;padding:2px 0 0;font-size:13px;font-weight:700;color:var(--color-yellow-deep);font-family:var(--font-sans);cursor:pointer;text-decoration:underline;text-underline-offset:2px" onClick="{{ openHowtoFromResult }}">如何设置为手机壁纸？ →</button>
+              </div>
+              </sc-if>
+
+              <div style="margin:18px 22px 0;background:var(--color-fluff);border:1px dashed var(--color-rule-strong);border-radius:10px;padding:14px;text-align:center">
+                <div style="font-size:14px;font-weight:800;color:var(--color-ink)">明天再来 🐾</div>
+                <div style="font-size:13px;color:var(--color-mute);margin-top:3px;line-height:1.5">鸡血君明天会根据你的状态，再生成一张新的。今天先赢下这一件事。</div>
+              </div>
+            </div>
+            </sc-if>
+
+            <!-- ===== GOAL ===== -->
+            <sc-if value="{{ isGoal }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;padding:0 0 110px">
+              <div style="padding:8px 22px 6px">
+                <div style="font-size:22px;font-weight:800;color:var(--color-ink)">我的战役</div>
+                <div style="font-size:13px;color:var(--color-mute);margin-top:3px">保存一个长期目标，每天生成的鸡血会更懂你。</div>
+              </div>
+              <div style="padding:14px 22px 0;display:flex;flex-direction:column;gap:20px">
+                <div>
+                  <label style="font-size:14px;font-weight:800;color:var(--color-ink);display:block;margin-bottom:8px">目标名称</label>
+                  <input value="{{ gName }}" onChange="{{ onGName }}" placeholder="例如：90 天减脂计划 / 考研上岸" style="width:100%;font-family:var(--font-sans);font-size:15px;color:var(--color-ink);background:var(--color-cream);border:1px solid var(--color-rule-strong);border-radius:10px;padding:12px 14px;outline:none">
+                </div>
+                <div>
+                  <label style="font-size:14px;font-weight:800;color:var(--color-ink);display:block;margin-bottom:10px">目标类型</label>
+                  <div style="display:flex;flex-wrap:wrap;gap:8px">
+                    <sc-for list="{{ gtypeChips }}" as="gt" hint-placeholder-count="8">
+                      <button style="{{ gt.style }}" onClick="{{ gt.onPick }}">{{ gt.name }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+                <div>
+                  <label style="font-size:14px;font-weight:800;color:var(--color-ink);display:block;margin-bottom:8px">目标描述</label>
+                  <textarea value="{{ gDesc }}" onChange="{{ onGDesc }}" placeholder="例如：我想在 90 天内从 82kg 减到 75kg，并养成每周运动 4 次的习惯。" style="width:100%;min-height:64px;resize:none;font-family:var(--font-sans);font-size:15px;color:var(--color-ink);background:var(--color-cream);border:1px solid var(--color-rule-strong);border-radius:10px;padding:12px 14px;line-height:1.6;outline:none"></textarea>
+                </div>
+                <div>
+                  <label style="font-size:14px;font-weight:800;color:var(--color-ink);display:block;margin-bottom:8px">截止日期 <span style="color:var(--color-mute);font-weight:500">可选</span></label>
+                  <input value="{{ gDeadline }}" onChange="{{ onGDeadline }}" placeholder="2026-09-30" style="width:100%;font-family:var(--font-mono);font-size:15px;color:var(--color-ink);background:var(--color-cream);border:1px solid var(--color-rule-strong);border-radius:10px;padding:12px 14px;outline:none">
+                </div>
+                <div>
+                  <label style="font-size:14px;font-weight:800;color:var(--color-ink);display:block;margin-bottom:8px">当前最大的困难</label>
+                  <textarea value="{{ gDiff }}" onChange="{{ onGDiff }}" placeholder="例如：晚上容易吃夜宵，而且一累就想放弃。" style="width:100%;min-height:56px;resize:none;font-family:var(--font-sans);font-size:15px;color:var(--color-ink);background:var(--color-cream);border:1px solid var(--color-rule-strong);border-radius:10px;padding:12px 14px;line-height:1.6;outline:none"></textarea>
+                </div>
+                <div>
+                  <label style="font-size:14px;font-weight:800;color:var(--color-ink);display:block;margin-bottom:4px">我不喜欢的表达</label>
+                  <div style="font-size:12px;color:var(--color-mute);margin-bottom:10px">鸡血君会避开这些，让文案更安全、更像你。</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:8px">
+                    <sc-for list="{{ dislikeChips }}" as="dk" hint-placeholder-count="5">
+                      <button style="{{ dk.style }}" onClick="{{ dk.onPick }}">{{ dk.label }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+                <div>
+                  <label style="font-size:14px;font-weight:800;color:var(--color-ink);display:block;margin-bottom:10px">默认语气</label>
+                  <div style="display:flex;flex-wrap:wrap;gap:8px">
+                    <sc-for list="{{ gtoneChips }}" as="gtn" hint-placeholder-count="5">
+                      <button style="{{ gtn.style }}" onClick="{{ gtn.onPick }}">{{ gtn.name }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="position:absolute;left:0;right:0;bottom:0;padding:14px 22px;background:linear-gradient(to top, var(--color-cream) 70%, transparent);z-index:6">
+              <button style="width:100%;background:var(--color-yellow);color:var(--color-ink);border:2px solid var(--color-ink);border-radius:10px;box-shadow:0 3px 0 0 var(--color-ink);padding:15px;font-size:16px;font-weight:800;font-family:var(--font-sans);cursor:pointer" onClick="{{ saveGoal }}">保存我的战役</button>
+            </div>
+            </sc-if>
+
+            <!-- ===== TEMPLATES ===== -->
+            <sc-if value="{{ isTemplates }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;padding:0 0 28px">
+              <div style="padding:8px 22px 6px">
+                <div style="font-size:22px;font-weight:800;color:var(--color-ink)">选一套你喜欢的风格</div>
+                <div style="font-size:13px;color:var(--color-mute);margin-top:3px">同一句话，换个模板就是另一种气质。点选后回生成页即可使用。</div>
+              </div>
+              <div style="padding:16px 22px 0;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+                <sc-for list="{{ templateCards }}" as="tc" hint-placeholder-count="8">
+                  <div style="display:flex;flex-direction:column;gap:9px;cursor:pointer" onClick="{{ tc.onPick }}">
+                    <div style="{{ tc.gridStyle }}"><dc-import name="Wallpaper" template-id="{{ tc.id }}" main="{{ tc.show }}" sub="{{ tc.showSub }}" w="146" h="260" hint-size="146px,260px"></dc-import></div>
+                    <div>
+                      <div style="display:flex;align-items:center;gap:6px"><span style="font-size:14px;font-weight:800;color:var(--color-ink)">{{ tc.name }}</span><sc-if value="{{ tc.sel }}" hint-placeholder-val="{{ false }}"><span style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--color-ink);background:var(--color-yellow);border-radius:999px;padding:2px 7px">已选</span></sc-if></div>
+                      <div style="font-size:12px;color:var(--color-mute);line-height:1.45;margin-top:3px">{{ tc.desc }}</div>
+                      <div style="font-family:var(--font-mono);font-size:11px;color:var(--color-yellow-deep);margin-top:5px">{{ tc.fit }}</div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            </sc-if>
+
+            <!-- ===== ME ===== -->
+            <sc-if value="{{ isMe }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;padding:0 0 28px">
+
+              <!-- logged OUT -->
+              <sc-if value="{{ loggedOut }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:18px 22px 0">
+                <div style="background:var(--color-cream);border:2px solid var(--color-ink);border-radius:14px;box-shadow:0 4px 0 0 var(--color-ink);padding:24px 20px;text-align:center">
+                  <div style="width:60px;height:60px;border-radius:16px;overflow:hidden;border:2px solid var(--color-ink);margin:0 auto"><img src="assets/mui-mascot.png" style="width:100%;height:100%;object-fit:cover;background:var(--color-corgi)"></div>
+                  <div style="font-size:18px;font-weight:800;color:var(--color-ink);margin-top:14px">登录后查看你的战斗记录</div>
+                  <div style="font-size:13px;color:var(--color-mute);margin-top:6px;line-height:1.55">目标、历史壁纸和收藏都会留在这里，换设备也不丢。</div>
+                  <button style="margin-top:16px;width:100%;background:var(--color-yellow);color:var(--color-ink);border:2px solid var(--color-ink);border-radius:10px;box-shadow:0 3px 0 0 var(--color-ink);padding:13px;font-size:15px;font-weight:800;font-family:var(--font-sans);cursor:pointer" onClick="{{ goLogin }}">登录 / 注册</button>
+                </div>
+              </div>
+              </sc-if>
+
+              <!-- logged IN -->
+              <sc-if value="{{ loggedIn }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;align-items:center;gap:14px;padding:12px 22px 16px">
+                <div style="width:56px;height:56px;border-radius:16px;overflow:hidden;border:2px solid var(--color-ink);box-shadow:0 3px 0 0 var(--color-ink);flex:none"><img src="assets/mui-mascot.png" style="width:100%;height:100%;object-fit:cover;background:var(--color-corgi)"></div>
+                <div style="display:flex;flex-direction:column;gap:4px">
+                  <div style="font-size:19px;font-weight:800;color:var(--color-ink)">{{ userName }}</div>
+                  <div style="display:flex;align-items:center;gap:8px"><span style="font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--color-yellow-deep);background:var(--color-fluff);border-radius:999px;padding:3px 10px">已连续 {{ userStreak }} 天</span><span style="font-family:var(--font-mono);font-size:12px;color:var(--color-mute)">{{ userSince }} 加入</span></div>
+                </div>
+              </div>
+
+              <!-- stats -->
+              <div style="padding:0 22px 4px;display:flex;gap:10px">
+                <div style="flex:1;background:var(--color-paper);border:1px solid var(--color-rule-strong);border-radius:10px;padding:12px 8px;text-align:center">
+                  <div style="font-family:var(--font-display);font-size:24px;font-weight:800;color:var(--color-ink)">{{ statGen }}</div>
+                  <div style="font-size:11px;color:var(--color-mute);margin-top:2px">已生成</div>
+                </div>
+                <div style="flex:1;background:var(--color-paper);border:1px solid var(--color-rule-strong);border-radius:10px;padding:12px 8px;text-align:center">
+                  <div style="font-family:var(--font-display);font-size:24px;font-weight:800;color:var(--color-ink)">{{ statDown }}</div>
+                  <div style="font-size:11px;color:var(--color-mute);margin-top:2px">已下载</div>
+                </div>
+                <div style="flex:1;background:var(--color-paper);border:1px solid var(--color-rule-strong);border-radius:10px;padding:12px 8px;text-align:center">
+                  <div style="font-family:var(--font-display);font-size:24px;font-weight:800;color:var(--color-ink)">{{ statFav }}</div>
+                  <div style="font-size:11px;color:var(--color-mute);margin-top:2px">已收藏</div>
+                </div>
+              </div>
+
+              <div style="padding:14px 22px 0">
+                <sc-if value="{{ hasSavedGoal }}" hint-placeholder-val="{{ true }}">
+                  <div style="background:var(--color-cream);border:2px solid var(--color-ink);border-radius:12px;box-shadow:0 3px 0 0 var(--color-ink);padding:16px">
+                    <div style="font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--color-yellow-deep)">当前战役</div>
+                    <div style="font-size:18px;font-weight:800;color:var(--color-ink);margin-top:6px">{{ savedGoalName }}</div>
+                    <div style="font-size:13px;color:var(--color-ink-soft);margin-top:5px;line-height:1.55">{{ savedGoalDesc }}</div>
+                    <div style="display:flex;gap:14px;margin-top:12px;padding-top:12px;border-top:1px solid var(--color-rule)">
+                      <div><div style="font-size:11px;color:var(--color-mute)">默认语气</div><div style="font-size:14px;font-weight:800;color:var(--color-ink)">{{ savedGoalTone }}</div></div>
+                      <div><div style="font-size:11px;color:var(--color-mute)">截止</div><div style="font-size:14px;font-weight:800;color:var(--color-ink)">{{ savedGoalDeadline }}</div></div>
+                    </div>
+                    <button style="margin-top:14px;width:100%;background:var(--color-paper);color:var(--color-ink);border:1px solid var(--color-rule-strong);border-radius:9px;padding:11px;font-size:14px;font-weight:700;font-family:var(--font-sans);cursor:pointer" onClick="{{ goGoal }}">编辑战役</button>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ noSavedGoal }}" hint-placeholder-val="{{ false }}">
+                  <div style="background:var(--color-paper);border:1px dashed var(--color-rule-strong);border-radius:12px;padding:22px;text-align:center">
+                    <div style="font-size:15px;font-weight:800;color:var(--color-ink)">还没有保存战役</div>
+                    <div style="font-size:13px;color:var(--color-mute);margin-top:5px;line-height:1.5">设一个长期目标，让每天的鸡血都对准它。</div>
+                    <button style="margin-top:14px;background:var(--color-yellow);color:var(--color-ink);border:2px solid var(--color-ink);border-radius:9px;box-shadow:0 3px 0 0 var(--color-ink);padding:11px 22px;font-size:14px;font-weight:800;font-family:var(--font-sans);cursor:pointer" onClick="{{ goGoal }}">设置我的战役</button>
+                  </div>
+                </sc-if>
+              </div>
+
+              <!-- menu -->
+              <div style="padding:18px 22px 0">
+                <div style="background:var(--color-paper);border:1px solid var(--color-rule-strong);border-radius:12px;overflow:hidden">
+                  <button style="width:100%;display:flex;align-items:center;gap:12px;padding:14px 16px;background:transparent;border:none;border-bottom:1px solid var(--color-rule);cursor:pointer;font-family:var(--font-sans)" onClick="{{ goFavorites }}">
+                    <span style="font-size:17px;color:var(--color-tongue)">♥</span>
+                    <span style="flex:1;text-align:left;font-size:15px;font-weight:700;color:var(--color-ink)">我的收藏</span>
+                    <span style="font-family:var(--font-mono);font-size:13px;color:var(--color-mute)">{{ statFav }}</span>
+                    <span style="font-size:16px;color:var(--color-mute)">›</span>
+                  </button>
+                  <button style="width:100%;display:flex;align-items:center;gap:12px;padding:14px 16px;background:transparent;border:none;border-bottom:1px solid var(--color-rule);cursor:pointer;font-family:var(--font-sans)" onClick="{{ goHowto }}">
+                    <span style="font-size:16px">📱</span>
+                    <span style="flex:1;text-align:left;font-size:15px;font-weight:700;color:var(--color-ink)">怎么设成手机壁纸</span>
+                    <span style="font-size:16px;color:var(--color-mute)">›</span>
+                  </button>
+                  <button style="width:100%;display:flex;align-items:center;gap:12px;padding:14px 16px;background:transparent;border:none;border-bottom:1px solid var(--color-rule);cursor:pointer;font-family:var(--font-sans)" onClick="{{ goAbout }}">
+                    <span style="font-size:16px">🐾</span>
+                    <span style="flex:1;text-align:left;font-size:15px;font-weight:700;color:var(--color-ink)">关于鸡血君</span>
+                    <span style="font-size:16px;color:var(--color-mute)">›</span>
+                  </button>
+                  <button style="width:100%;display:flex;align-items:center;gap:12px;padding:14px 16px;background:transparent;border:none;cursor:pointer;font-family:var(--font-sans)" onClick="{{ logout }}">
+                    <span style="flex:1;text-align:left;font-size:15px;font-weight:700;color:var(--color-mute)">退出登录</span>
+                  </button>
+                </div>
+              </div>
+
+              <div style="padding:22px 22px 0">
+                <div style="font-size:16px;font-weight:800;color:var(--color-ink);margin-bottom:12px">历史壁纸</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+                  <sc-for list="{{ history }}" as="h" hint-placeholder-count="6">
+                    <div style="border-radius:11px;overflow:hidden;box-shadow:var(--shadow-sm);border:1px solid var(--color-rule-strong)"><dc-import name="Wallpaper" template-id="{{ h.id }}" main="{{ h.main }}" sub="" day-num="{{ h.dayNum }}" date-text="{{ h.dateText }}" w="100" h="178" hint-size="100px,178px"></dc-import></div>
+                  </sc-for>
+                </div>
+              </div>
+              </sc-if>
+            </div>
+            </sc-if>
+
+            <!-- ===== LOGIN ===== -->
+            <sc-if value="{{ isLogin }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;min-height:680px;padding:0 0 28px">
+              <div style="padding:8px 22px 0;display:flex;justify-content:flex-end">
+                <button style="background:transparent;border:none;font-size:14px;font-weight:700;color:var(--color-mute);font-family:var(--font-sans);cursor:pointer" onClick="{{ goHome }}">先随便看看 →</button>
+              </div>
+              <div style="padding:20px 26px 0;display:flex;flex-direction:column;align-items:center;text-align:center">
+                <div style="width:64px;height:64px;border-radius:17px;overflow:hidden;border:2px solid var(--color-ink);box-shadow:0 4px 0 0 var(--color-ink)"><img src="assets/mui-mark.png" style="width:100%;height:100%;object-fit:cover;background:var(--color-yellow-warm)"></div>
+                <div style="font-family:var(--font-display);font-weight:800;font-size:30px;line-height:1.2;color:var(--color-ink);margin-top:18px">先登录，<br>再开始战斗</div>
+                <div style="font-size:14px;color:var(--color-ink-soft);margin-top:10px;line-height:1.6;max-width:280px">登录后，你的目标、历史壁纸和收藏都会留在这里。</div>
+              </div>
+              <div style="padding:26px 26px 0;display:flex;flex-direction:column;gap:12px">
+                <div style="display:flex;align-items:center;gap:10px;background:var(--color-cream);border:1px solid var(--color-rule-strong);border-radius:10px;padding:0 14px">
+                  <span style="font-family:var(--font-mono);font-size:15px;font-weight:600;color:var(--color-mute)">+86</span>
+                  <div style="width:1px;height:22px;background:var(--color-rule)"></div>
+                  <input value="{{ loginPhone }}" onChange="{{ onLoginPhone }}" placeholder="手机号" inputmode="numeric" style="flex:1;font-family:var(--font-sans);font-size:16px;color:var(--color-ink);background:transparent;border:none;padding:14px 0;outline:none">
+                </div>
+                <div style="display:flex;gap:10px">
+                  <input value="{{ loginCode }}" onChange="{{ onLoginCode }}" placeholder="验证码" inputmode="numeric" style="flex:1;font-family:var(--font-sans);font-size:16px;color:var(--color-ink);background:var(--color-cream);border:1px solid var(--color-rule-strong);border-radius:10px;padding:14px;outline:none">
+                  <button style="flex:none;background:var(--color-paper);color:var(--color-yellow-deep);border:1px solid var(--color-rule-strong);border-radius:10px;padding:0 16px;font-size:14px;font-weight:700;font-family:var(--font-sans);cursor:pointer" onClick="{{ sendCode }}">{{ codeBtnText }}</button>
+                </div>
+                <button style="margin-top:4px;width:100%;background:var(--color-yellow);color:var(--color-ink);border:2px solid var(--color-ink);border-radius:10px;box-shadow:0 3px 0 0 var(--color-ink);padding:15px;font-size:16px;font-weight:800;font-family:var(--font-sans);cursor:pointer" onClick="{{ login }}">登录</button>
+              </div>
+              <div style="padding:22px 26px 0;display:flex;align-items:center;gap:12px">
+                <div style="flex:1;height:1px;background:var(--color-rule)"></div>
+                <span style="font-size:12px;color:var(--color-mute)">或用以下方式</span>
+                <div style="flex:1;height:1px;background:var(--color-rule)"></div>
+              </div>
+              <div style="padding:16px 26px 0;display:flex;gap:10px">
+                <button style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--color-paper);color:var(--color-ink);border:1px solid var(--color-rule-strong);border-radius:10px;padding:13px;font-size:14px;font-weight:700;font-family:var(--font-sans);cursor:pointer" onClick="{{ login }}"><span style="color:var(--color-success);font-size:16px">✦</span> 微信登录</button>
+                <button style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--color-paper);color:var(--color-ink);border:1px solid var(--color-rule-strong);border-radius:10px;padding:13px;font-size:14px;font-weight:700;font-family:var(--font-sans);cursor:pointer" onClick="{{ login }}"> Apple 登录</button>
+              </div>
+              <div style="padding:22px 30px 0;text-align:center;font-size:12px;color:var(--color-mute);line-height:1.6">登录即代表你已阅读并同意<span style="color:var(--color-yellow-deep);font-weight:700">《用户协议》</span>与<span style="color:var(--color-yellow-deep);font-weight:700">《隐私政策》</span></div>
+            </div>
+            </sc-if>
+
+            <!-- ===== FAVORITES ===== -->
+            <sc-if value="{{ isFavorites }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;padding:0 0 28px">
+              <div style="display:flex;align-items:center;gap:12px;padding:8px 22px 8px">
+                <button style="width:34px;height:34px;border-radius:9px;border:1px solid var(--color-rule-strong);background:var(--color-paper);font-size:18px;color:var(--color-ink);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none" onClick="{{ goMe }}">←</button>
+                <div style="display:flex;flex-direction:column"><div style="font-size:20px;font-weight:800;color:var(--color-ink)">我的收藏</div><div style="font-size:12px;color:var(--color-mute)">{{ favCountLabel }}</div></div>
+              </div>
+              <sc-if value="{{ hasFavorites }}" hint-placeholder-val="{{ true }}">
+              <div style="padding:12px 22px 0;display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <sc-for list="{{ favorites }}" as="f" hint-placeholder-count="4">
+                  <div style="display:flex;flex-direction:column;gap:8px">
+                    <div style="position:relative;border-radius:13px;overflow:hidden;box-shadow:var(--shadow-md);border:1px solid var(--color-rule-strong)">
+                      <dc-import name="Wallpaper" template-id="{{ f.id }}" main="{{ f.main }}" sub="{{ f.sub }}" day-num="{{ f.dayNum }}" date-text="{{ f.dateText }}" w="148" h="263" hint-size="148px,263px"></dc-import>
+                    </div>
+                    <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:12px;font-weight:700;color:var(--color-ink)">{{ f.tplName }}</span><button style="background:transparent;border:none;font-size:14px;color:var(--color-tongue);cursor:pointer;padding:2px" onClick="{{ f.onRemove }}">♥</button></div>
+                  </div>
+                </sc-for>
+              </div>
+              </sc-if>
+              <sc-if value="{{ noFavorites }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:60px 30px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px">
+                <div style="font-size:40px;color:var(--color-rule-strong)">♡</div>
+                <div style="font-size:16px;font-weight:800;color:var(--color-ink)">还没有收藏</div>
+                <div style="font-size:13px;color:var(--color-mute);line-height:1.6;max-width:240px">在结果页点右上角的 ♥，把喜欢的壁纸存到这里，随时回来再下载。</div>
+                <button style="margin-top:6px;background:var(--color-yellow);color:var(--color-ink);border:2px solid var(--color-ink);border-radius:9px;box-shadow:0 3px 0 0 var(--color-ink);padding:11px 22px;font-size:14px;font-weight:800;font-family:var(--font-sans);cursor:pointer" onClick="{{ goGenerate }}">去生成一张</button>
+              </div>
+              </sc-if>
+            </div>
+            </sc-if>
+
+            <!-- ===== HOWTO ===== -->
+            <sc-if value="{{ isHowto }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;padding:0 0 28px">
+              <div style="display:flex;align-items:center;gap:12px;padding:8px 22px 6px">
+                <button style="width:34px;height:34px;border-radius:9px;border:1px solid var(--color-rule-strong);background:var(--color-paper);font-size:18px;color:var(--color-ink);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none" onClick="{{ backFromHowto }}">←</button>
+                <div style="font-size:20px;font-weight:800;color:var(--color-ink)">把它设成你的锁屏</div>
+              </div>
+              <div style="padding:6px 22px 0">
+                <div style="font-size:13px;color:var(--color-ink-soft);line-height:1.6">保存好壁纸后，照下面三步走。建议设成<strong style="color:var(--color-ink)">锁屏</strong>而不是桌面 —— 你每天看锁屏的次数，远比桌面多。</div>
+              </div>
+              <div style="padding:16px 22px 0;display:flex;gap:8px">
+                <button style="{{ iosTabStyle }}" onClick="{{ pickIos }}">iPhone</button>
+                <button style="{{ androidTabStyle }}" onClick="{{ pickAndroid }}">Android</button>
+              </div>
+              <div style="padding:16px 22px 0;display:flex;flex-direction:column;gap:12px">
+                <sc-for list="{{ howSteps }}" as="hs" hint-placeholder-count="3">
+                  <div style="display:flex;gap:14px;align-items:flex-start;background:var(--color-paper);border:1px solid var(--color-rule-strong);border-radius:10px;padding:14px">
+                    <div style="width:30px;height:30px;flex:none;border-radius:8px;background:var(--color-yellow);border:2px solid var(--color-ink);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-weight:800;font-size:14px;color:var(--color-ink)">{{ hs.n }}</div>
+                    <div style="font-size:14px;color:var(--color-ink);line-height:1.55;padding-top:3px">{{ hs.t }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="margin:18px 22px 0;background:var(--color-fluff);border:1px solid color-mix(in srgb, var(--color-corgi) 50%, transparent);border-radius:10px;padding:14px;display:flex;gap:10px;align-items:flex-start">
+                <span style="font-size:15px">🐾</span>
+                <div style="font-size:13px;color:var(--color-ink-soft);line-height:1.55">{{ howTip }}</div>
+              </div>
+            </div>
+            </sc-if>
+
+            <!-- ===== ABOUT ===== -->
+            <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;padding:0 0 28px">
+              <div style="display:flex;align-items:center;gap:12px;padding:8px 22px 6px">
+                <button style="width:34px;height:34px;border-radius:9px;border:1px solid var(--color-rule-strong);background:var(--color-paper);font-size:18px;color:var(--color-ink);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none" onClick="{{ goMe }}">←</button>
+                <div style="font-size:20px;font-weight:800;color:var(--color-ink)">关于鸡血君</div>
+              </div>
+
+              <div style="margin:10px 22px 0;background:var(--color-cream);border:2px solid var(--color-ink);border-radius:14px;box-shadow:0 4px 0 0 var(--color-ink);padding:22px 20px;position:relative;overflow:hidden">
+                <div style="position:absolute;right:-26px;top:-26px;width:120px;height:120px;border-radius:50%;background:var(--bg-sun);opacity:.5"></div>
+                <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-yellow-deep)">每日精神燃料</span>
+                <div style="font-family:var(--font-display);font-weight:800;font-size:24px;line-height:1.35;color:var(--color-ink);margin-top:10px">鸡血君不是<br>又一个励志语录网站。</div>
+                <p style="font-size:14px;color:var(--color-ink-soft);margin-top:12px;line-height:1.65">它根据你的目标和今天的状态，每天生成一句刚好需要的话，排版成手机锁屏壁纸。让你每次点亮屏幕，都被重新拉回状态。</p>
+              </div>
+
+              <div style="padding:22px 22px 0">
+                <div style="font-size:16px;font-weight:800;color:var(--color-ink);margin-bottom:12px">我们在意的</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                  <sc-for list="{{ aboutValues }}" as="av" hint-placeholder-count="4">
+                    <div style="background:var(--color-paper);border:1px solid var(--color-rule-strong);border-radius:10px;padding:14px">
+                      <div style="font-size:15px;font-weight:800;color:var(--color-ink)">{{ av.t }}</div>
+                      <div style="font-size:12px;color:var(--color-mute);line-height:1.5;margin-top:4px">{{ av.d }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div style="padding:22px 22px 0">
+                <div style="font-size:16px;font-weight:800;color:var(--color-ink);margin-bottom:10px">我们不做的</div>
+                <div style="background:var(--color-paper);border:1px solid var(--color-rule-strong);border-radius:10px;padding:6px 16px">
+                  <sc-for list="{{ aboutNots }}" as="an" hint-placeholder-count="4">
+                    <div style="display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--color-rule)"><span style="color:var(--color-tongue);font-weight:800">✕</span><span style="font-size:14px;color:var(--color-ink-soft)">{{ an }}</span></div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div style="padding:22px 22px 0">
+                <div style="font-size:16px;font-weight:800;color:var(--color-ink);margin-bottom:10px">想问的大概率在这里</div>
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <sc-for list="{{ aboutFaq }}" as="fq" hint-placeholder-count="4">
+                    <div style="background:var(--color-paper);border:1px solid var(--color-rule-strong);border-radius:10px;padding:14px">
+                      <div style="font-size:14px;font-weight:800;color:var(--color-ink)">{{ fq.q }}</div>
+                      <div style="font-size:13px;color:var(--color-ink-soft);line-height:1.55;margin-top:5px">{{ fq.a }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div style="padding:26px 22px 0;text-align:center">
+                <div style="font-family:var(--font-mono);font-size:12px;color:var(--color-mute);letter-spacing:0.04em;line-height:1.7">🐾 由柯基 Mui 监修<br>Meathill Studio · Made with ♥ in 重庆</div>
+              </div>
+            </div>
+            </sc-if>
+
+          </div>
+
+          <!-- BOTTOM TAB BAR -->
+          <sc-if value="{{ showTabBar }}" hint-placeholder-val="{{ true }}">
+          <div style="height:72px;flex:none;border-top:1px solid var(--color-rule);background:color-mix(in srgb, var(--color-cream) 92%, transparent);display:flex;align-items:stretch;padding:6px 8px 14px">
+            <sc-for list="{{ tabs }}" as="tb" hint-placeholder-count="4">
+              <button style="{{ tb.style }}" onClick="{{ tb.onPick }}">
+                <span style="{{ tb.iconStyle }}">{{ tb.icon }}</span>
+                <span style="font-size:11px;font-weight:700">{{ tb.label }}</span>
+              </button>
+            </sc-for>
+          </div>
+          </sc-if>
+
+          <!-- TOAST -->
+          <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;left:22px;right:22px;bottom:90px;background:var(--color-ink);color:var(--color-cream);border-radius:10px;padding:13px 16px;font-size:13px;font-weight:600;line-height:1.5;box-shadow:var(--shadow-lg);z-index:20;text-align:center">{{ toast }}</div>
+          </sc-if>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ DESKTOP HOME ============ -->
+    <div style="flex:1;min-width:560px;display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--color-yellow-deep)">桌面端 · 首页</span>
+        <span style="font-size:13px;color:var(--color-mute)">营销落地页 — 与移动端共用同一套壁纸渲染</span>
+      </div>
+
+      <div style="border:2px solid var(--color-ink);border-radius:16px;overflow:hidden;box-shadow:0 16px 40px -12px rgba(58,46,35,0.4);background:var(--color-cream)">
+        <!-- browser chrome -->
+        <div style="height:38px;background:var(--color-paper-deep);border-bottom:1px solid var(--color-rule-strong);display:flex;align-items:center;gap:8px;padding:0 16px">
+          <span style="width:11px;height:11px;border-radius:50%;background:var(--color-tongue)"></span>
+          <span style="width:11px;height:11px;border-radius:50%;background:var(--color-yellow)"></span>
+          <span style="width:11px;height:11px;border-radius:50%;background:var(--color-corgi)"></span>
+          <div style="margin-left:14px;font-family:var(--font-mono);font-size:12px;color:var(--color-mute);background:var(--color-cream);border-radius:6px;padding:3px 14px">jixuejun.app</div>
+        </div>
+
+        <div class="jx-noscroll" style="height:818px;overflow-y:auto;background:var(--color-cream)">
+          <!-- nav -->
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 40px;border-bottom:1px solid var(--color-rule);position:sticky;top:0;background:color-mix(in srgb, var(--color-cream) 88%, transparent);backdrop-filter:blur(6px);z-index:10">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="width:32px;height:32px;border-radius:9px;overflow:hidden;border:2px solid var(--color-ink)"><img src="assets/mui-mark.png" style="width:100%;height:100%;object-fit:cover;background:var(--color-yellow-warm)"></div>
+              <span style="font-size:18px;font-weight:800;color:var(--color-ink)">鸡血君</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:26px">
+              <span style="font-size:14px;font-weight:700;color:var(--color-ink-soft)">怎么工作</span>
+              <span style="font-size:14px;font-weight:700;color:var(--color-ink-soft)">模板</span>
+              <span style="font-size:14px;font-weight:700;color:var(--color-ink-soft)">语气</span>
+              <button style="background:var(--color-yellow);color:var(--color-ink);border:2px solid var(--color-ink);border-radius:9px;box-shadow:0 3px 0 0 var(--color-ink);padding:9px 18px;font-size:14px;font-weight:800;font-family:var(--font-sans);cursor:pointer" onClick="{{ goGenerate }}">生成我的鸡血</button>
+            </div>
+          </div>
+
+          <!-- hero -->
+          <div style="display:grid;grid-template-columns:1.05fr 0.95fr;gap:30px;align-items:center;padding:48px 40px 40px;background:var(--bg-sun)">
+            <div>
+              <span style="font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--color-yellow-deep)">每日精神燃料 · 锁屏友好</span>
+              <div style="font-family:var(--font-display);font-weight:800;font-size:52px;line-height:1.1;color:var(--color-ink);margin-top:16px;letter-spacing:-0.02em">每天一张，<br>专属于你的<br><span style="position:relative;white-space:nowrap">鸡血壁纸<span style="position:absolute;left:0;right:0;bottom:6%;height:32%;background:color-mix(in srgb, var(--color-corgi) 80%, transparent);transform:skewY(-1deg);border-radius:3px;z-index:-1"></span></span>。</div>
+              <p style="font-size:17px;color:var(--color-ink-soft);margin-top:18px;line-height:1.65;max-width:440px">写下你的目标，选择你喜欢的语气，鸡血君会生成一句今天刚好需要的话，并排版成适合手机锁屏的壁纸。</p>
+              <div style="display:flex;gap:12px;margin-top:26px">
+                <button style="background:var(--color-yellow);color:var(--color-ink);border:2px solid var(--color-ink);border-radius:10px;box-shadow:0 4px 0 0 var(--color-ink);padding:14px 26px;font-size:16px;font-weight:800;font-family:var(--font-sans);cursor:pointer" onClick="{{ goGenerate }}">生成我的今日鸡血</button>
+                <button style="background:transparent;color:var(--color-ink);border:2px solid var(--color-ink);border-radius:10px;padding:14px 22px;font-size:16px;font-weight:800;font-family:var(--font-sans);cursor:pointer" onClick="{{ goTemplates }}">查看示例</button>
+              </div>
+            </div>
+            <div style="display:flex;gap:18px;justify-content:center;align-items:flex-end">
+              <sc-for list="{{ heroPhones }}" as="hp" hint-placeholder-count="3">
+                <div style="{{ hp.frameStyle }}"><div style="border-radius:24px;overflow:hidden"><dc-import name="Wallpaper" template-id="{{ hp.id }}" main="{{ hp.main }}" sub="{{ hp.sub }}" lock="{{ true }}" w="180" h="380" hint-size="180px,380px"></dc-import></div></div>
+              </sc-for>
+            </div>
+          </div>
+
+          <!-- how -->
+          <div style="padding:44px 40px;border-top:1px solid var(--color-rule)">
+            <div style="font-size:30px;font-weight:800;color:var(--color-ink);text-align:center">三步，三十秒</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-top:28px">
+              <sc-for list="{{ steps }}" as="st" hint-placeholder-count="3">
+                <div style="background:var(--color-paper);border:1px solid var(--color-rule-strong);border-radius:12px;padding:22px">
+                  <div style="width:38px;height:38px;border-radius:9px;background:var(--color-yellow);border:2px solid var(--color-ink);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-weight:800;font-size:16px;color:var(--color-ink)">{{ st.n }}</div>
+                  <div style="font-size:18px;font-weight:800;color:var(--color-ink);margin-top:14px">{{ st.t }}</div>
+                  <div style="font-size:14px;color:var(--color-mute);margin-top:6px;line-height:1.55">{{ st.d }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <!-- templates showcase -->
+          <div style="padding:44px 40px;background:var(--color-paper);border-top:1px solid var(--color-rule)">
+            <div style="font-size:30px;font-weight:800;color:var(--color-ink);text-align:center">八套模板，八种气质</div>
+            <div style="font-size:15px;color:var(--color-mute);text-align:center;margin-top:8px">从冷酷极简到温柔便签，总有一张是今天的你。</div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:28px">
+              <sc-for list="{{ templateCards }}" as="tc" hint-placeholder-count="8">
+                <div style="display:flex;flex-direction:column;gap:10px;align-items:center">
+                  <div style="border-radius:14px;overflow:hidden;box-shadow:var(--shadow-md);border:1px solid var(--color-rule-strong)"><dc-import name="Wallpaper" template-id="{{ tc.id }}" main="{{ tc.show }}" sub="{{ tc.showSub }}" w="150" h="266" hint-size="150px,266px"></dc-import></div>
+                  <div style="text-align:center"><div style="font-size:14px;font-weight:800;color:var(--color-ink)">{{ tc.name }}</div><div style="font-size:12px;color:var(--color-mute);margin-top:2px">{{ tc.desc }}</div></div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <!-- final cta -->
+          <div style="padding:52px 40px;background:var(--color-ink);text-align:center">
+            <div style="font-family:var(--font-display);font-weight:800;font-size:36px;color:var(--color-cream);line-height:1.2">今天你想赢下哪一件事？</div>
+            <button style="margin-top:22px;background:var(--color-yellow);color:var(--color-ink);border:none;border-radius:10px;box-shadow:0 4px 0 0 var(--color-yellow-deep);padding:15px 32px;font-size:17px;font-weight:800;font-family:var(--font-sans);cursor:pointer" onClick="{{ goGenerate }}">生成我的第一张鸡血壁纸</button>
+            <div style="margin-top:30px;font-family:var(--font-mono);font-size:12px;color:var(--color-mute);letter-spacing:0.06em">🐾 由柯基 Mui 监修 · Made with ♥ in 重庆</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;defaultTone&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;gentle&quot;,&quot;coach&quot;,&quot;cold&quot;,&quot;chuuni&quot;,&quot;minimal&quot;],&quot;default&quot;:&quot;chuuni&quot;},&quot;startTemplate&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;paper&quot;,&quot;black_minimal&quot;,&quot;gym&quot;,&quot;calendar&quot;,&quot;retro&quot;,&quot;cyber&quot;,&quot;sunrise&quot;,&quot;desk&quot;],&quot;default&quot;:&quot;paper&quot;}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      screen: 'home',
+      goalText: '', statusText: '',
+      tone: props.defaultTone || 'chuuni',
+      templateId: props.startTemplate || 'paper',
+      size: 'lock',
+      result: null, copyIdx: 0, regenLeft: 3, downloaded: false,
+      toast: '',
+      gName: '', gType: 'diet', gDesc: '', gDeadline: '', gDiff: '', gDislikes: [], gTone: 'chuuni',
+      loadingText: '',
+      user: { name: '战斗中的你', streak: 7, generated: 12, downloaded: 9, since: '6月10日' },
+      favorites: [
+        { id: 'gym', main: '今天这组不是训练，\n是你对懒惰的反击。', sub: '练完，你就赢了今天。', dayNum: '06', dateText: '2026.06.15' },
+        { id: 'cyber', main: '没人会替你 ship，\n今天你来。', sub: '', dayNum: '05', dateText: '2026.06.14' },
+        { id: 'calendar', main: '你现在背下的每一页，\n都在把未来往你这边拉。', sub: '坐下，翻开，开始。', dayNum: '02', dateText: '2026.06.11' },
+      ],
+      howFrom: 'me', platform: 'ios', loginPhone: '', loginCode: '', codeSent: false,
+      savedGoal: null,
+      history: [
+        { id: 'gym', main: '今天这组不是训练，\n是你对懒惰的反击。', dayNum: '06', dateText: '2026.06.15' },
+        { id: 'cyber', main: '没人会替你 ship，\n今天你来。', dayNum: '05', dateText: '2026.06.14' },
+        { id: 'sunrise', main: '今晚早睡，\n是给明天的自己留力气。', dayNum: '04', dateText: '2026.06.13' },
+        { id: 'black_minimal', main: '别想。\n开始。', dayNum: '03', dateText: '2026.06.12' },
+        { id: 'calendar', main: '你现在背下的每一页，\n都在把未来往你这边拉。', dayNum: '02', dateText: '2026.06.11' },
+        { id: 'paper', main: '今天不用满血，\n只要别消失，就已经很好。', dayNum: '01', dateText: '2026.06.10' },
+      ],
+    };
+  }
+
+  DATA() {
+    return {
+      tones: [
+        { id: 'gentle', name: '温柔鼓励', ex: '慢一点也没关系，但今天不要消失。' },
+        { id: 'coach', name: '热血教练', ex: '别和懒惰讲道理，今天先赢一次。' },
+        { id: 'cold', name: '冷酷战友', ex: '你不需要被理解，你需要完成。' },
+        { id: 'chuuni', name: '中二燃', ex: '今天这一步，是你向旧版本自己的宣战。' },
+        { id: 'minimal', name: '极简冷酷', ex: '别想。开始。' },
+      ],
+      goals: [
+        { id: 'diet', name: '减肥', ex: '你不是在少吃，是在夺回选择权。', seed: '我想在 90 天内从 82kg 减到 75kg' },
+        { id: 'fit', name: '健身', ex: '今天这组不是训练，是你对懒惰的反击。', seed: '我想恢复每周训练 4 次，增肌减脂' },
+        { id: 'exam', name: '考试', ex: '你背下的每一页，都在把未来往你这边拉。', seed: '我想考上理想的学校，每天高效复习' },
+        { id: 'anti', name: '戒拖延', ex: '别等状态，先开始，状态会追上来。', seed: '我想戒掉拖延，每天先开始做事' },
+        { id: 'project', name: '做项目', ex: '产品不会自己完成，今天推进一寸也算赢。', seed: '我想在 30 天内完成第一个产品 MVP' },
+        { id: 'save', name: '存钱', ex: '省下的不是钱，是你以后的选择权。', seed: '我想每月存下三分之一收入' },
+        { id: 'sleep', name: '早睡早起', ex: '手机可以放下，明天的状态放不下。', seed: '我想每天 12 点前睡，早上 7 点起' },
+        { id: 'mood', name: '情绪恢复', ex: '今天不用满血，只要别消失就很好。', seed: '我最近有点累，想慢慢恢复状态' },
+      ],
+      templates: [
+        { id: 'paper', name: '日式便签', desc: '温暖纸张，柔和文字，手账感', fit: '温柔鼓励 · 情绪恢复', show: '今天不用满血，\n只要别消失，就已经很好。', showSub: '慢一点，但别停。' },
+        { id: 'black_minimal', name: '黑底极简', desc: '黑色背景，大号白字，留白多', fit: '冷酷 · 专注 · 戒拖延', show: '别想。\n开始。', showSub: '' },
+        { id: 'gym', name: '健身房标语', desc: '强对比，大字号，硬朗排版', fit: '减脂 · 健身 · 早起', show: '今天这组不是训练，\n是你对懒惰的反击。', showSub: '' },
+        { id: 'calendar', name: '日历打卡', desc: '日期、DAY 数字、任务感', fit: '长期目标 · 考试 · 习惯', show: '你现在背下的每一页，\n都在把未来往你这边拉。', showSub: '' },
+        { id: 'retro', name: '复古海报', desc: '复古纹理，海报式标题', fit: '中二燃 · 创业 · 冲刺', show: '今天这一步，\n是你向旧版本自己的宣战。', showSub: '' },
+        { id: 'cyber', name: '赛博霓虹', desc: '暗色背景，霓虹光效，科技感', fit: '程序员 · 创业 · 夜间', show: '没人会替你 ship，\n今天你来。', showSub: '' },
+        { id: 'sunrise', name: '清晨阳光', desc: '明亮、干净、正向', fit: '早起 · 学习 · 恢复', show: '今晚早睡，\n是给明天的自己留力气。', showSub: '' },
+        { id: 'desk', name: '学习桌便签', desc: '书桌、纸条、便利贴感觉', fit: '考试 · 阅读 · 写作', show: '别等状态，\n先开始，状态会追上来。', showSub: '' },
+      ],
+      gtypes: [
+        { id: 'diet', name: '减肥' }, { id: 'fit', name: '健身' }, { id: 'exam', name: '考试' }, { id: 'work', name: '工作' },
+        { id: 'project', name: '创业' }, { id: 'save', name: '存钱' }, { id: 'habit', name: '习惯养成' }, { id: 'custom', name: '自定义' },
+      ],
+      dislikes: ['不要羞辱我', '不要太油腻', '不要太鸡汤', '不要太夸张', '不要提体重焦虑'],
+      sizes: [
+        { id: 'lock', name: '手机锁屏' }, { id: 'home', name: '手机桌面' }, { id: 'social', name: '社交分享图' },
+      ],
+      copy: {
+        diet: [
+          { main: '你不是在少吃，\n你是在夺回选择权。', sub: '今天赢下一次，就够了。' },
+          { main: '奶茶不会让你更轻，\n但拒绝它的你会。', sub: '' },
+          { main: '体重是结果，\n今天你管的是选择。', sub: '把注意力放回这一餐。' },
+        ],
+        fit: [
+          { main: '今天这组不是训练，\n是你对懒惰的反击。', sub: '练完，你就赢了今天。' },
+          { main: '身体不会记得借口，\n只会记得你练过。', sub: '' },
+          { main: '最后一下最难，\n也只有它在塑形。', sub: '再来一个。' },
+        ],
+        exam: [
+          { main: '你现在背下的每一页，\n都在把未来往你这边拉。', sub: '坐下，翻开，开始。' },
+          { main: '不是在熬时间，\n是在把名字写进名单。', sub: '' },
+          { main: '今天多坐三十分钟，\n考场上就少慌三十分钟。', sub: '' },
+        ],
+        anti: [
+          { main: '别等状态。\n先开始，状态会追上来。', sub: '今天只欠你十分钟。' },
+          { main: '别跟拖延谈判，\n先做十分钟。', sub: '' },
+          { main: '你不是没时间，\n你只是还没把自己排进日程。', sub: '先做十分钟，剩下的交给惯性。' },
+        ],
+        project: [
+          { main: '产品不会自己完成。\n今天推进一寸，也算赢。', sub: '提交一次，今天就没白过。' },
+          { main: '想清楚是奢侈，\n先做出来才是路。', sub: '' },
+          { main: '没人会替你 ship，\n今天你来。', sub: '' },
+        ],
+        save: [
+          { main: '这笔不花，\n是给未来的自己转账。', sub: '' },
+          { main: '省下的不是钱，\n是你以后的选择权。', sub: '' },
+        ],
+        sleep: [
+          { main: '今晚早睡，\n是给明天的自己留力气。', sub: '' },
+          { main: '手机可以放下，\n明天的状态放不下。', sub: '' },
+        ],
+        mood: [
+          { main: '今天不用满血。\n只要别消失，就已经很好。', sub: '慢一点，但别停。' },
+          { main: '允许自己慢，\n但别骗自己说放弃。', sub: '' },
+        ],
+        generic: [
+          { main: '今天这一步，\n是你向旧版本自己的宣战。', sub: '旧的你，到此为止。' },
+          { main: '别想。\n开始。', sub: '' },
+          { main: '今天别跟拖延谈判，\n先做十分钟。', sub: '' },
+        ],
+      },
+      toneLines: {
+        gentle: { main: '慢一点也没关系，\n但今天不要消失。', sub: '' },
+        coach: { main: '别和懒惰讲道理，\n今天先赢一次。', sub: '' },
+        cold: { main: '你不需要被理解，\n你需要完成。', sub: '' },
+        chuuni: { main: '今天这一步，\n是你向旧版本自己的宣战。', sub: '旧的你，到此为止。' },
+        minimal: { main: '别想。\n开始。', sub: '' },
+      },
+    };
+  }
+
+  toneName(id) { const t = this.DATA().tones.find(x => x.id === id); return t ? t.name : ''; }
+  templateName(id) { const t = this.DATA().templates.find(x => x.id === id); return t ? t.name : ''; }
+
+  detectGoal() {
+    const txt = ((this.state.goalText || '') + ' ' + (this.state.gDesc || '')).toLowerCase();
+    const t = this.state.goalText + ' ' + (this.state.savedGoal ? this.state.savedGoal.desc : '');
+    const has = (...ks) => ks.some(k => t.indexOf(k) >= 0);
+    if (has('减肥', '减脂', '瘦', '体重', 'kg', '夜宵')) return 'diet';
+    if (has('健身', '增肌', '训练', '撸铁', '练')) return 'fit';
+    if (has('考', '背', '复习', '学习', '上岸', '刷题')) return 'exam';
+    if (has('拖延', '拖', '懒')) return 'anti';
+    if (has('项目', '产品', '创业', 'app', 'mvp', 'ship', '上线', '独立开发')) return 'project';
+    if (has('存钱', '省', '攒')) return 'save';
+    if (has('早睡', '早起', '睡')) return 'sleep';
+    if (has('情绪', '累', '焦虑', '恢复', '难过')) return 'mood';
+    if (this.state.savedGoal && this.state.savedGoal.type) {
+      const map = { work: 'project', project: 'project', habit: 'anti', custom: 'generic' };
+      return map[this.state.savedGoal.type] || this.state.savedGoal.type;
+    }
+    return 'generic';
+  }
+
+  computeResult(idx) {
+    const D = this.DATA();
+    const g = this.detectGoal();
+    const pool = (D.copy[g] || D.copy.generic).slice();
+    pool.push(D.toneLines[this.state.tone]);
+    const pick = pool[((idx % pool.length) + pool.length) % pool.length];
+    return { main: pick.main, sub: pick.sub || '', goal: g };
+  }
+
+  showToast(msg) {
+    this.setState({ toast: msg });
+    clearTimeout(this._tt);
+    this._tt = setTimeout(() => this.setState({ toast: '' }), 2800);
+  }
+
+  go(screen) { this.setState({ screen, toast: '' }); const el = this._scrollEl(); if (el) el.scrollTop = 0; }
+  _scrollEl() { try { return document.querySelector('.jx-noscroll'); } catch (e) { return null; } }
+
+  generate() {
+    const texts = ['正在提炼你的今日战斗宣言……', '鸡血君正在把目标压缩成一句狠话……', '今天这张壁纸，正在加载能量……'];
+    this.setState({ screen: 'loading', loadingText: texts[Math.floor(Math.random() * texts.length)] });
+    clearTimeout(this._t);
+    this._t = setTimeout(() => {
+      const r = this.computeResult(0);
+      this.setState({ result: r, screen: 'result', downloaded: false, regenLeft: 3, copyIdx: 0 });
+    }, 1600);
+  }
+
+  regen() {
+    if (this.state.regenLeft <= 0) return;
+    const idx = this.state.copyIdx + 1;
+    this.setState({ copyIdx: idx, regenLeft: this.state.regenLeft - 1, result: this.computeResult(idx), downloaded: false });
+  }
+
+  nextTemplate() {
+    const ts = this.DATA().templates;
+    const i = ts.findIndex(t => t.id === this.state.templateId);
+    this.setState({ templateId: ts[(i + 1) % ts.length].id });
+  }
+
+  download() {
+    this.setState({ downloaded: true });
+    this.showToast('已保存。现在可以把它设为你的手机锁屏。');
+    const r = this.state.result;
+    if (r) {
+      const h = [{ id: this.state.templateId, main: r.main, dayNum: '07', dateText: '2026.06.16' }, ...this.state.history].slice(0, 9);
+      this.setState({ history: h });
+    }
+  }
+
+  share() { this.showToast('已复制分享链接，同款壁纸可发给朋友。'); }
+
+  pickGoalChip(g) { this.setState({ goalText: g.seed }); }
+  selectTone(id) { this.setState({ tone: id }); }
+  selectTemplate(id) { this.setState({ templateId: id }); }
+  selectSize(id) { this.setState({ size: id }); }
+  onGoalInput(e) { this.setState({ goalText: e.target.value }); }
+  onStatusInput(e) { this.setState({ statusText: e.target.value }); }
+
+  onGName(e) { this.setState({ gName: e.target.value }); }
+  onGDesc(e) { this.setState({ gDesc: e.target.value }); }
+  onGDeadline(e) { this.setState({ gDeadline: e.target.value }); }
+  onGDiff(e) { this.setState({ gDiff: e.target.value }); }
+  setGType(id) { this.setState({ gType: id }); }
+  setGTone(id) { this.setState({ gTone: id }); }
+  toggleDislike(d) {
+    const s = this.state.gDislikes.slice();
+    const i = s.indexOf(d);
+    if (i >= 0) s.splice(i, 1); else s.push(d);
+    this.setState({ gDislikes: s });
+  }
+  saveGoal() {
+    const sg = { name: this.state.gName || '我的战役', type: this.state.gType, desc: this.state.gDesc, deadline: this.state.gDeadline, diff: this.state.gDiff, dislikes: this.state.gDislikes };
+    this.setState({ savedGoal: sg, tone: this.state.gTone, goalText: this.state.gDesc || this.state.goalText });
+    this.showToast('战役已保存。明天的鸡血会更懂你。');
+  }
+
+  resetAll() {
+    this.setState({ screen: 'home', goalText: '', statusText: '', tone: this.props.defaultTone || 'chuuni', templateId: 'paper', result: null, copyIdx: 0, regenLeft: 3, downloaded: false, toast: '' });
+  }
+
+  // ---- style helpers ----
+  chipStyle(sel) {
+    return { flex: 'none', whiteSpace: 'nowrap', fontFamily: 'var(--font-sans)', fontSize: '13px', fontWeight: 700, cursor: 'pointer',
+      padding: '8px 14px', borderRadius: '999px',
+      background: sel ? 'var(--color-yellow)' : 'var(--color-paper)',
+      color: 'var(--color-ink)',
+      border: sel ? '2px solid var(--color-ink)' : '1px solid var(--color-rule-strong)',
+      boxShadow: sel ? '0 2px 0 0 var(--color-ink)' : 'none', transition: 'all 120ms' };
+  }
+  jumpStyle(sel) {
+    return { fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, cursor: 'pointer', padding: '6px 14px', borderRadius: '999px',
+      background: sel ? 'var(--color-ink)' : 'var(--color-paper)', color: sel ? 'var(--color-cream)' : 'var(--color-ink-soft)',
+      border: sel ? '1px solid var(--color-ink)' : '1px solid var(--color-rule-strong)', transition: 'all 120ms' };
+  }
+
+  renderVals() {
+    const s = this.state, D = this.DATA();
+    const screen = s.screen;
+
+    const jResult = () => (s.result ? this.go('result') : this.generate());
+    const jumpDefs = [['home', '首页'], ['generate', '生成'], ['result', '结果'], ['goal', '目标'], ['templates', '模板'], ['me', '我的'], ['login', '登录'], ['favorites', '收藏'], ['howto', '说明'], ['about', '关于']];
+    const jumpChips = jumpDefs.map(([id, label]) => ({ label: (screen === id ? '● ' : '· ') + label,
+      onPick: id === 'result' ? jResult : (id === 'howto' ? () => { this.setState({ howFrom: 'me' }); this.go('howto'); } : () => this.go(id)) }));
+
+    const goalChips = D.goals.map(g => ({ name: g.name, style: this.chipStyle(false), onPick: () => this.pickGoalChip(g) }));
+    const goalCards = D.goals.map(g => ({ name: g.name, ex: g.ex, onPick: () => { this.pickGoalChip(g); this.go('generate'); } }));
+
+    const toneCardStyle = (sel) => ({ display: 'flex', flexDirection: 'column', gap: '5px', padding: '13px 15px', borderRadius: '10px', cursor: 'pointer',
+      background: sel ? 'var(--color-fluff)' : 'var(--color-paper)', border: sel ? '2px solid var(--color-ink)' : '1px solid var(--color-rule-strong)',
+      boxShadow: sel ? '0 3px 0 0 var(--color-ink)' : 'var(--shadow-xs)', transition: 'all 120ms' });
+    const dotStyle = (sel) => ({ width: '18px', height: '18px', borderRadius: '50%', flex: 'none',
+      background: sel ? 'var(--color-yellow)' : 'transparent', border: sel ? '2px solid var(--color-ink)' : '2px solid var(--color-rule-strong)' });
+    const toneCards = D.tones.map(t => ({ name: t.name, ex: t.ex, style: toneCardStyle(s.tone === t.id), dot: dotStyle(s.tone === t.id), onPick: () => this.selectTone(t.id) }));
+    const personaCards = D.tones.map(t => ({ name: t.name, ex: t.ex }));
+
+    const thumbStyle = (sel) => ({ flex: 'none', cursor: 'pointer', padding: '5px', borderRadius: '12px',
+      background: sel ? 'var(--color-fluff)' : 'transparent', border: sel ? '2px solid var(--color-ink)' : '2px solid transparent', transition: 'all 120ms' });
+    const gridStyle = (sel) => ({ borderRadius: '14px', overflow: 'hidden', boxShadow: sel ? '0 4px 0 0 var(--color-ink)' : 'var(--shadow-md)',
+      border: sel ? '2px solid var(--color-ink)' : '1px solid var(--color-rule-strong)', transition: 'all 120ms' });
+    const templateCards = D.templates.map(t => ({ id: t.id, name: t.name, desc: t.desc, fit: t.fit, show: t.show, showSub: t.showSub,
+      sel: s.templateId === t.id, thumbStyle: thumbStyle(s.templateId === t.id), gridStyle: gridStyle(s.templateId === t.id), onPick: () => this.selectTemplate(t.id) }));
+
+    const stripCards = D.templates.map(t => ({ id: t.id, show: t.show, showSub: t.showSub }));
+
+    const sizeOpts = D.sizes.map(z => ({ name: z.name, style: { flex: 1, fontFamily: 'var(--font-sans)', fontSize: '13px', fontWeight: 700, cursor: 'pointer', padding: '11px 8px', borderRadius: '9px',
+      background: s.size === z.id ? 'var(--color-yellow)' : 'var(--color-paper)', color: 'var(--color-ink)',
+      border: s.size === z.id ? '2px solid var(--color-ink)' : '1px solid var(--color-rule-strong)', boxShadow: s.size === z.id ? '0 2px 0 0 var(--color-ink)' : 'none' }, onPick: () => this.selectSize(z.id) }));
+
+    const gtypeChips = D.gtypes.map(g => ({ name: g.name, style: this.chipStyle(s.gType === g.id), onPick: () => this.setGType(g.id) }));
+    const gtoneChips = D.tones.map(t => ({ name: t.name, style: this.chipStyle(s.gTone === t.id), onPick: () => this.setGTone(t.id) }));
+    const dislikeChips = D.dislikes.map(d => ({ label: d, style: this.chipStyle(s.gDislikes.indexOf(d) >= 0), onPick: () => this.toggleDislike(d) }));
+
+    const steps = [
+      { n: '1', t: '写下你的目标', d: '减肥、备考、健身、做项目、戒拖延，越具体越好。' },
+      { n: '2', t: '选择你的语气', d: '温柔鼓励、热血教练、冷酷战友、中二燃、极简冷酷。' },
+      { n: '3', t: '下载今日壁纸', d: '保存到手机，设成锁屏或桌面，每天被拉回状态。' },
+    ];
+
+    // tabs
+    const tabDefs = [['today', '今日', 'home', '☀'], ['goal', '目标', 'goal', '◎'], ['templates', '模板', 'templates', '▦'], ['me', '我的', 'me', '☺']];
+    const activeTab = screen === 'goal' ? 'goal' : screen === 'templates' ? 'templates' : screen === 'me' ? 'me' : 'today';
+    const tabStyle = (sel) => ({ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '3px',
+      background: 'transparent', border: 'none', cursor: 'pointer', color: sel ? 'var(--color-yellow-deep)' : 'var(--color-mute)', fontFamily: 'var(--font-sans)' });
+    const tabIconStyle = (sel) => ({ fontSize: '20px', lineHeight: 1, color: sel ? 'var(--color-yellow-deep)' : 'var(--color-mute)' });
+    const tabs = tabDefs.map(([tid, label, scr, icon]) => ({ label, icon, style: tabStyle(activeTab === tid), iconStyle: tabIconStyle(activeTab === tid), onPick: () => this.go(scr) }));
+
+    const heroPhones = [
+      { id: 'paper', main: '今天不用满血，\n只要别消失，就已经很好。', sub: '慢一点，但别停。', frameStyle: { width: '194px', height: '394px', background: '#15110b', borderRadius: '30px', padding: '7px', boxShadow: '0 14px 30px -8px rgba(58,46,35,0.4)', marginBottom: '20px' } },
+      { id: 'cyber', main: '没人会替你 ship，\n今天你来。', sub: '', frameStyle: { width: '194px', height: '394px', background: '#15110b', borderRadius: '30px', padding: '7px', boxShadow: '0 18px 36px -8px rgba(58,46,35,0.5)' } },
+    ];
+
+    const r = s.result || { main: '', sub: '', goal: 'generic' };
+    const sg = s.savedGoal;
+    const toneMap = { gentle: '温柔鼓励', coach: '热血教练', cold: '冷酷战友', chuuni: '中二燃', minimal: '极简冷酷' };
+
+    // ---- account ----
+    const loggedIn = !!s.user;
+    const u = s.user || {};
+
+    // ---- favorites ----
+    const favKey = (it) => it.id + '|' + it.main;
+    const curKey = s.templateId + '|' + r.main;
+    const isFaved = s.favorites.some(f => favKey(f) === curKey);
+    const favGlyph = isFaved ? '♥' : '♡';
+    const favBtnStyle = { width: '34px', height: '34px', borderRadius: '9px', flex: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px',
+      border: isFaved ? '1px solid var(--color-tongue)' : '1px solid var(--color-rule-strong)',
+      background: isFaved ? 'color-mix(in srgb, var(--color-tongue) 14%, transparent)' : 'var(--color-paper)',
+      color: isFaved ? 'var(--color-tongue)' : 'var(--color-mute)' };
+    const removeFav = (i) => this.setState(st => ({ favorites: st.favorites.filter((_, idx) => idx !== i) }));
+    const favorites = s.favorites.map((f, i) => ({ id: f.id, main: f.main, sub: f.sub || '', dayNum: f.dayNum || '07', dateText: f.dateText || '2026.06.16', tplName: this.templateName(f.id), onRemove: () => removeFav(i) }));
+    const toggleFav = () => {
+      this.setState(st => {
+        const exists = st.favorites.some(f => favKey(f) === curKey);
+        const favs = exists ? st.favorites.filter(f => favKey(f) !== curKey)
+          : [{ id: st.templateId, main: (st.result || {}).main, sub: (st.result || {}).sub || '', dayNum: '07', dateText: '2026.06.16' }, ...st.favorites];
+        return { favorites: favs };
+      });
+      this.showToast(isFaved ? '已取消收藏。' : '已收藏。在「我的 → 我的收藏」随时再下载。');
+    };
+
+    // ---- howto ----
+    const howData = {
+      ios: {
+        steps: [
+          '打开「设置」→「墙纸」，或在锁定屏幕长按进入编辑。',
+          '点「添加新墙纸」，从相册里选中刚下载的这张图。',
+          '调整好位置，点右上角「完成」，选「设定锁定屏幕」。',
+        ],
+        tip: '想每次抬手就看到？把它单独设给锁屏，别动桌面 —— 你看锁屏的次数远比桌面多。',
+      },
+      android: {
+        steps: [
+          '打开「相册 / 图库」，找到刚下载的壁纸。',
+          '点右上角「⋮」菜单 →「设为」/「用作壁纸」。',
+          '选「锁定屏幕壁纸」，调整后确认。',
+        ],
+        tip: '部分机型在「设置」→「壁纸与个性化」里设置，路径大同小异，认准「锁屏」。',
+      },
+    };
+    const hd = howData[s.platform] || howData.ios;
+    const howSteps = hd.steps.map((t, i) => ({ n: String(i + 1), t }));
+    const segStyle = (sel) => ({ flex: 1, fontFamily: 'var(--font-sans)', fontSize: '14px', fontWeight: 700, cursor: 'pointer', padding: '11px 8px', borderRadius: '9px',
+      background: sel ? 'var(--color-yellow)' : 'var(--color-paper)', color: 'var(--color-ink)',
+      border: sel ? '2px solid var(--color-ink)' : '1px solid var(--color-rule-strong)', boxShadow: sel ? '0 2px 0 0 var(--color-ink)' : 'none' });
+
+    // ---- about ----
+    const aboutValues = [
+      { t: '战斗感', d: '不是哄你开心，是把目标压成一句能用的狠话。' },
+      { t: '每日仪式', d: '每天一张，点亮屏幕就被拉回状态。' },
+      { t: '私人定制', d: '按你的目标、状态和语气生成，不是通用语录。' },
+      { t: '轻量陪跑', d: '三十秒一张，不做复杂的目标管理。' },
+    ];
+    const aboutNots = ['不羞辱你的身材或成绩', '不制造体重 / 落榜焦虑', '不灌成功学和空泛鸡汤', '不诱导自我惩罚'];
+    const aboutFaq = [
+      { q: '每天能生成几次？', a: '免费每天可重新生成 3 次，避免无限消耗。明天会刷新。' },
+      { q: '文案是 AI 生成的吗？', a: '是。根据你的目标和今天的状态生成，再排版成锁屏壁纸。' },
+      { q: '会保存我的隐私吗？', a: '目标和状态只用于生成文案。你不喜欢的表达可以在目标设置里关掉。' },
+      { q: '收费吗？', a: 'MVP 阶段核心功能免费。未来会有高清导出等增值项。' },
+    ];
+
+    return {
+      jumpChips,
+      resetAll: () => this.resetAll(),
+      screenTitle: { home: '首页 / 今日', generate: '生成页', loading: '生成中', result: '结果页', goal: '目标设置页', templates: '模板选择页', me: '我的', login: '登录 / 注册', favorites: '收藏夹', howto: '使用说明', about: '关于' }[screen] || '',
+      todayDate: '6月16日 星期二',
+      isHome: screen === 'home', isGenerate: screen === 'generate', isLoading: screen === 'loading',
+      isResult: screen === 'result', isGoal: screen === 'goal', isTemplates: screen === 'templates', isMe: screen === 'me',
+      isLogin: screen === 'login', isFavorites: screen === 'favorites', isHowto: screen === 'howto', isAbout: screen === 'about',
+      showTabBar: ['home', 'goal', 'templates', 'me'].indexOf(screen) >= 0,
+
+      goGenerate: () => this.go('generate'), goHome: () => this.go('home'), goTemplates: () => this.go('templates'), goGoal: () => this.go('goal'),
+      generate: () => this.generate(), regen: () => this.regen(), nextTemplate: () => this.nextTemplate(), download: () => this.download(), share: () => this.share(), saveGoal: () => this.saveGoal(),
+
+      goalText: s.goalText, statusText: s.statusText, onGoalInput: (e) => this.onGoalInput(e), onStatusInput: (e) => this.onStatusInput(e),
+      goalChips, goalCards, toneCards, personaCards, templateCards, stripCards, sizeOpts, steps,
+
+      loadingText: s.loadingText,
+
+      templateId: s.templateId, dayNum: '07', dateText: '2026.06.16',
+      resMain: r.main, resSub: r.sub, resToneName: this.toneName(s.tone), resTemplateName: this.templateName(s.templateId),
+      regenLeft: s.regenLeft, downloaded: s.downloaded,
+      regenBtnStyle: { flex: 1, background: s.regenLeft > 0 ? 'var(--color-paper)' : 'var(--color-paper-deep)', color: s.regenLeft > 0 ? 'var(--color-ink)' : 'var(--color-mute)',
+        border: '1px solid var(--color-rule-strong)', borderRadius: '10px', padding: '13px 6px', fontSize: '14px', fontWeight: 700, fontFamily: 'var(--font-sans)', cursor: s.regenLeft > 0 ? 'pointer' : 'not-allowed' },
+
+      gName: s.gName, gDesc: s.gDesc, gDeadline: s.gDeadline, gDiff: s.gDiff,
+      onGName: (e) => this.onGName(e), onGDesc: (e) => this.onGDesc(e), onGDeadline: (e) => this.onGDeadline(e), onGDiff: (e) => this.onGDiff(e),
+      gtypeChips, gtoneChips, dislikeChips,
+
+      history: s.history,
+      hasSavedGoal: !!sg, noSavedGoal: !sg,
+      savedGoalName: sg ? sg.name : '', savedGoalDesc: sg ? (sg.desc || '（还没有写描述）') : '',
+      savedGoalTone: toneMap[s.tone] || '中二燃', savedGoalDeadline: sg && sg.deadline ? sg.deadline : '未设',
+
+      tabs,
+      heroPhones,
+
+      goLogin: () => this.go('login'), goMe: () => this.go('me'), goFavorites: () => this.go('favorites'), goAbout: () => this.go('about'),
+      goHowto: () => { this.setState({ howFrom: 'me' }); this.go('howto'); },
+      backFromHowto: () => this.go(s.howFrom || 'me'),
+      openHowtoFromResult: () => { this.setState({ howFrom: 'result' }); this.go('howto'); },
+      login: () => { this.setState({ user: { name: '战斗中的你', streak: 7, generated: 12, downloaded: 9, since: '6月10日' }, loginPhone: '', loginCode: '', codeSent: false }); this.go('home'); this.showToast('欢迎回来，今天也别消失。'); },
+      logout: () => { this.setState({ user: null }); this.showToast('已退出登录。'); },
+      sendCode: () => { this.setState({ codeSent: true }); this.showToast('验证码已发送（演示：随便填即可）。'); },
+      onLoginPhone: (e) => this.setState({ loginPhone: e.target.value }), onLoginCode: (e) => this.setState({ loginCode: e.target.value }),
+      loginPhone: s.loginPhone, loginCode: s.loginCode, codeBtnText: s.codeSent ? '已发送' : '获取验证码',
+      loggedIn, loggedOut: !loggedIn,
+      userName: u.name || '', userStreak: u.streak || 0, userSince: u.since || '',
+      statGen: u.generated || 0, statDown: u.downloaded || 0, statFav: s.favorites.length,
+      toggleFav, favGlyph, favBtnStyle,
+      favorites, favCountLabel: s.favorites.length ? ('共 ' + s.favorites.length + ' 张') : '还没有收藏', hasFavorites: s.favorites.length > 0, noFavorites: s.favorites.length === 0,
+      iosTabStyle: segStyle(s.platform === 'ios'), androidTabStyle: segStyle(s.platform === 'android'), pickIos: () => this.setState({ platform: 'ios' }), pickAndroid: () => this.setState({ platform: 'android' }),
+      howSteps, howTip: hd.tip,
+      aboutValues, aboutNots, aboutFaq,
+
+      hasToast: !!s.toast, toast: s.toast,
+    };
+  }
+}
+</script>
+</body>
+</html>

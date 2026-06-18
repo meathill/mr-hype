@@ -1,0 +1,29 @@
+# 依赖
+node_modules/
+.pnpm-store/
+
+# 构建产物
+dist/
+.next/
+.open-next/
+out/
+*.tsbuildinfo
+
+# Cloudflare / Wrangler
+.wrangler/
+.dev.vars
+.dev.vars.*
+
+# 环境变量
+.env
+.env.*
+!.env.example
+
+# 系统 / 编辑器
+.DS_Store
+*.log
+.idea/
+.vscode/
+
+# 测试
+coverage/
