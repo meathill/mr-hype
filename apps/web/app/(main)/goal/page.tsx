@@ -4,6 +4,9 @@ import type { SaveGoalInput } from '@/src/actions/data';
 import { getUserGoal } from '@/src/db/queries';
 import { getSession } from '@/src/lib/session';
 
+// 按用户/会话渲染，禁止预渲染（否则 build 时 getCloudflareContext 无请求上下文）
+export const dynamic = 'force-dynamic';
+
 export default async function GoalPage() {
   const session = await getSession();
   const userId = session?.user?.id;

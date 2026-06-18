@@ -12,6 +12,8 @@ import { Wallpaper } from '@/components/wallpaper';
 import { getUserGoal, getUserHistory, getUserStats } from '@/src/db/queries';
 import { getSession } from '@/src/lib/session';
 
+export const dynamic = 'force-dynamic';
+
 function StatCard({ value, label }: { value: number; label: string }) {
   return (
     <div className="flex-1 rounded-lg border border-rule-strong bg-paper px-2 py-3 text-center">

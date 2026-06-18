@@ -5,6 +5,8 @@ import { FavoriteGrid, type FavoriteItem } from '@/components/favorites/favorite
 import { getUserFavorites } from '@/src/db/queries';
 import { getSession } from '@/src/lib/session';
 
+export const dynamic = 'force-dynamic';
+
 export default async function FavoritesPage() {
   const session = await getSession();
   const user = session?.user;
