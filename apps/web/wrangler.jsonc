@@ -2,8 +2,11 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "main": ".open-next/worker.js",
   "name": "mr-hype-web",
-  "compatibility_date": "2024-12-30",
-  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "compatibility_date": "2026-06-30",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "global_fetch_strictly_public"
+  ],
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
@@ -14,12 +17,11 @@
       "service": "mr-hype-web"
     }
   ],
-  // D1：本地开发用 --local（无需真实 id）。部署前由 owner 执行 `wrangler d1 create mr-hype` 后回填 database_id。
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "mr-hype",
-      "database_id": "REPLACE_WITH_REAL_ID_BEFORE_DEPLOY",
+      "database_id": "db8ec684-769c-4347-be16-374bc21dcc5f",
       "migrations_dir": "src/db/migrations"
     }
   ]
