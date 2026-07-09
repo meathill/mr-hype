@@ -25,9 +25,12 @@
 
 ## 壁纸下载（重要踩坑）
 
-- 用 html-to-image 客户端截 result 预览节点（`src/lib/download.ts`）。**foreignObject 栅格化在 headless/sandbox 浏览器会挂起**（CI/预览里测不了），真实浏览器可用；两次尝试都加了 6s 超时回退。
+- 用 html-to-image 客户端截 result 页**可见**的壁纸节点（`src/lib/download.ts` 的 `captureNodeToPng`）。**foreignObject 栅格化在 headless/sandbox 浏览器会挂起**（Claude Preview 这类工具里测不出来），真实浏览器可用；两次尝试（内联字体/`skipFonts`）都加了 6s 超时回退。
+- **必须截「可见」节点，不能截藏起来的节点**：曾试过把导出节点挪到屏幕外（`position:fixed;left:-9999px`）——在真实 Chrome 里截图直接是全透明空白（尺寸对但像素全空）；改用 `h-0 overflow-hidden` 裁剪掉——直接卡死超时（同 headless 的症状）。两种「隐藏」手法在这个库上都不可靠。**结论：只截当前可见、正常渲染的节点**，不要为了不显示导出内容而额外藏一份。
+- **壁纸内容本身不该含手机状态栏/时钟**：早期版本用 `lock` 态渲染假的 9:41/5G/100%/固定日期，直接烧进导出图——但真机的锁屏会自己叠加*实时*状态栏，图片里再画一份假的，叠在一起就是错的、不能用。现在 result 页展示和导出用同一份「干净」壁纸（背景+文案+DAY/日期水印+品牌，无手机 chrome），`lock` 态只留给首页营销 hero 的静态手机 mockup（那不是用户会下载的东西，"9:41" 是行业惯例，无所谓）。
+- DAY/日期水印用 `src/lib/date.ts` 的 `getToday()` 取**真实当前日期**（client-only，挂载后 `useEffect` 里取，避免 SSR/水合不一致），不要写死日期字符串。
 - iOS Safari 忽略 `<a download>`，所以下载后弹「保存弹层」让用户**长按存图**；桌面才用 `<a download>`。
-- **最稳升级路径（未做）**：服务端 Satori(JSX→SVG)+resvg(SVG→PNG) 在 Worker 里生成真 PNG，彻底解决 iOS/字体/全分辨率问题。
+- **最稳升级路径（未做）**：服务端 Satori(JSX→SVG)+resvg(SVG→PNG) 在 Worker 里生成真 PNG，彻底解决字体保真/全分辨率问题，也不用再纠结 html-to-image 的这些怪癖。
 
 ## 约定
 
