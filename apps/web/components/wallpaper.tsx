@@ -56,7 +56,7 @@ export function Wallpaper(props: WallpaperProps) {
 
       {l.lock && (
         <div style={s(l.lockBarStyle)}>
-          <div style={s(l.lockGlyphStyle)} />
+          <div style={s(l.lockGlyphStyle)}>🐾</div>
           <div style={s(l.lockHintStyle)}>{l.brandLine}</div>
         </div>
       )}

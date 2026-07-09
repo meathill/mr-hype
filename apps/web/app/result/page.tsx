@@ -13,11 +13,12 @@ import { useEffect, useRef, useState } from 'react';
 import { Wallpaper } from '@/components/wallpaper';
 import { recordGenerationAction, toggleFavoriteAction } from '@/src/actions/data';
 import { useSession } from '@/src/lib/auth-client';
+import { getToday, type TodayInfo } from '@/src/lib/date';
 import { captureNodeToPng, triggerBrowserDownload } from '@/src/lib/download';
 import { useGenerateStore } from '@/src/lib/store';
 
 const DAY_NUM = '07';
-const DATE_TEXT = '2026.06.16';
+const EMPTY_TODAY: TodayInfo = { dateText: '', dateLabel: '', time: '' };
 
 export default function ResultPage() {
   const router = useRouter();
@@ -30,10 +31,16 @@ export default function ResultPage() {
   const { data: session } = useSession();
   const loggedIn = Boolean(session?.user);
   const [faved, setFaved] = useState(false);
+  const [today, setToday] = useState<TodayInfo>(EMPTY_TODAY);
 
   useEffect(() => {
     if (!store.result) router.replace('/generate');
   }, [store.result, router]);
+
+  // 真实当前日期/时间只在客户端可知，挂载后再取，避免与服务端渲染不一致
+  useEffect(() => {
+    setToday(getToday());
+  }, []);
 
   function showToast(message: string) {
     setToast(message);
@@ -56,7 +63,7 @@ export default function ResultPage() {
           tone: store.tone,
           goalType: r.goalType,
           dayNum: DAY_NUM,
-          dateText: DATE_TEXT,
+          dateText: today.dateText,
         });
       }
     } catch (error) {
@@ -79,7 +86,7 @@ export default function ResultPage() {
       main: r.main,
       sub: r.sub,
       dayNum: DAY_NUM,
-      dateText: DATE_TEXT,
+      dateText: today.dateText,
     });
     if (res.ok) {
       setFaved(res.faved);
@@ -89,7 +96,7 @@ export default function ResultPage() {
 
   const result = store.result;
   if (!result) return null;
-  const filename = `鸡血君-${store.templateId}-${DATE_TEXT}.png`;
+  const filename = `鸡血君-${store.templateId}-${today.dateText || 'today'}.png`;
 
   return (
     <main className="mx-auto max-w-lg pb-8">
@@ -115,7 +122,8 @@ export default function ResultPage() {
         </button>
       </div>
 
-      {/* 预览：锁屏机框 */}
+      {/* 预览：锁屏机框。壁纸内容本身不含手机状态栏/时钟——那是真机自己叠加的实时信息，
+          写死在导出图里反而不能用。这里展示的就是导出时会拿到的同一份内容。 */}
       <div className="flex justify-center px-6 pt-3.5 pb-2">
         <div className="rounded-[38px] bg-[#15110b] p-2 shadow-lg">
           <div ref={exportRef} className="overflow-hidden rounded-[31px]">
@@ -124,8 +132,7 @@ export default function ResultPage() {
               main={result.main}
               sub={result.sub}
               dayNum={DAY_NUM}
-              dateText={DATE_TEXT}
-              lock
+              dateText={today.dateText}
               width={264}
               height={552}
             />

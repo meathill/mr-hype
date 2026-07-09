@@ -390,7 +390,7 @@ export function computeWallpaperLayout(props: WallpaperProps): WallpaperLayout {
   }
   const dotsWrapStyle: WallpaperStyle = { display: 'flex', gap: px(1.4), justifyContent: 'center' };
 
-  const brandLine = '🐾 鸡血君';
+  const brandLine = '鸡血君';
   const brandStyle: WallpaperStyle = {
     fontFamily: 'var(--font-mono)',
     fontSize: px(2.3),
@@ -399,6 +399,7 @@ export function computeWallpaperLayout(props: WallpaperProps): WallpaperLayout {
     color: c.inkBrand,
     textAlign: 'center',
     width: '100%',
+    whiteSpace: 'nowrap',
   };
   const bottomStyle: WallpaperStyle = {
     display: 'flex',
@@ -451,10 +452,14 @@ export function computeWallpaperLayout(props: WallpaperProps): WallpaperLayout {
   };
   const lockGlyphStyle: WallpaperStyle = {
     width: px(3.4),
-    height: px(2.6),
-    borderRadius: px(0.8),
+    height: px(3.4),
+    borderRadius: '50%',
     border: `2px solid ${lockMuted}`,
-    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: px(1.8),
+    lineHeight: 1,
     marginTop: px(1),
   };
   const lockHintStyle: WallpaperStyle = {
@@ -463,6 +468,7 @@ export function computeWallpaperLayout(props: WallpaperProps): WallpaperLayout {
     fontWeight: 600,
     letterSpacing: '0.1em',
     color: lockMuted,
+    whiteSpace: 'nowrap',
   };
 
   return {
