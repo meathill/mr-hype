@@ -11,10 +11,18 @@ export function TopNav() {
         <span className="text-lg font-extrabold text-ink">鸡血君</span>
       </Link>
       <nav className="flex items-center gap-7">
-        <Link href="/templates" className="text-sm font-bold text-ink-soft no-underline">
+        <Link
+          href="/templates"
+          prefetch={false}
+          className="text-sm font-bold text-ink-soft no-underline"
+        >
           模板
         </Link>
-        <Link href="/how-to-set-wallpaper" className="text-sm font-bold text-ink-soft no-underline">
+        <Link
+          href="/how-to-set-wallpaper"
+          prefetch={false}
+          className="text-sm font-bold text-ink-soft no-underline"
+        >
           使用说明
         </Link>
         <Link

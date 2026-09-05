@@ -72,6 +72,7 @@ export default function HomePage() {
             </Link>
             <Link
               href="/templates"
+              prefetch={false}
               className="rounded-lg border-2 border-ink bg-transparent px-5 py-3.5 text-base font-extrabold text-ink no-underline"
             >
               查看示例
@@ -120,6 +121,7 @@ export default function HomePage() {
             <Link
               key={goal.id}
               href={`/generate?seed=${encodeURIComponent(goal.seed)}`}
+              prefetch={false}
               className="block rounded-lg border border-rule-strong bg-paper p-3.5 no-underline shadow-xs"
             >
               <div className="mb-1.5 flex items-center gap-2">

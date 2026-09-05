@@ -103,6 +103,7 @@ export default function ResultPage() {
       <div className="flex items-center gap-3 px-6 pt-4 pb-1.5">
         <Link
           href="/generate"
+          prefetch={false}
           className="flex size-9 shrink-0 items-center justify-center rounded-md border border-rule-strong bg-paper text-ink no-underline"
         >
           <ArrowLeftIcon size={18} />
@@ -195,6 +196,7 @@ export default function ResultPage() {
           </div>
           <Link
             href="/how-to-set-wallpaper"
+            prefetch={false}
             className="mt-0.5 self-start text-sm font-bold text-yellow-deep underline underline-offset-2"
           >
             如何设置为手机壁纸？ →

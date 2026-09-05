@@ -26,6 +26,7 @@ export default async function FavoritesPage() {
       <div className="flex items-center gap-3 px-6 pt-4 pb-2">
         <Link
           href="/me"
+          prefetch={false}
           className="flex size-9 shrink-0 items-center justify-center rounded-md border border-rule-strong bg-paper text-ink no-underline"
         >
           <ArrowLeftIcon size={18} />
@@ -49,6 +50,7 @@ export default async function FavoritesPage() {
           </p>
           <Link
             href="/generate"
+            prefetch={false}
             className="press-ink mt-1 inline-block rounded-lg border-2 border-ink bg-yellow px-5 py-2.5 text-sm font-extrabold text-ink no-underline"
           >
             去生成一张

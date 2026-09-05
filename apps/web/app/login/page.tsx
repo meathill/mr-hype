@@ -51,7 +51,11 @@ export default function LoginPage() {
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col px-6 py-6">
       <div className="flex justify-end">
-        <Link href="/" className="font-sans text-sm font-bold text-mute no-underline">
+        <Link
+          href="/"
+          prefetch={false}
+          className="font-sans text-sm font-bold text-mute no-underline"
+        >
           先随便看看 →
         </Link>
       </div>

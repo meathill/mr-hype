@@ -28,6 +28,7 @@ export default function AboutPage() {
       <div className="flex items-center gap-3 px-6 pt-4 pb-1.5">
         <Link
           href="/me"
+          prefetch={false}
           className="flex size-9 shrink-0 items-center justify-center rounded-md border border-rule-strong bg-paper text-ink no-underline"
         >
           <ArrowLeftIcon size={18} />

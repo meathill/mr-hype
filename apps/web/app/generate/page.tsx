@@ -59,6 +59,7 @@ function GenerateForm() {
       <div className="flex items-center gap-3 px-6 pt-4 pb-4">
         <Link
           href="/"
+          prefetch={false}
           className="flex size-9 items-center justify-center rounded-md border border-rule-strong bg-paper text-ink no-underline"
         >
           <ArrowLeftIcon size={18} />

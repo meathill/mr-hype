@@ -40,6 +40,7 @@ export default async function MePage() {
           </p>
           <Link
             href="/login"
+            prefetch={false}
             className="press-ink mt-4 inline-block w-full rounded-lg border-2 border-ink bg-yellow py-3 text-sm font-extrabold text-ink no-underline"
           >
             登录 / 注册
@@ -89,6 +90,7 @@ export default async function MePage() {
             </div>
             <Link
               href="/goal"
+              prefetch={false}
               className="mt-3.5 block w-full rounded-lg border border-rule-strong bg-paper py-2.5 text-center text-sm font-bold text-ink no-underline"
             >
               编辑战役
@@ -100,6 +102,7 @@ export default async function MePage() {
             <p className="mt-1 text-sm text-mute">设一个长期目标，让每天的鸡血都对准它。</p>
             <Link
               href="/goal"
+              prefetch={false}
               className="press-ink mt-3.5 inline-block rounded-lg border-2 border-ink bg-yellow px-5 py-2.5 text-sm font-extrabold text-ink no-underline"
             >
               设置我的战役
@@ -112,6 +115,7 @@ export default async function MePage() {
         <div className="overflow-hidden rounded-xl border border-rule-strong bg-paper">
           <Link
             href="/favorites"
+            prefetch={false}
             className="flex items-center gap-3 border-b border-rule px-4 py-3.5 no-underline"
           >
             <HeartIcon size={18} className="text-tongue" />
@@ -121,6 +125,7 @@ export default async function MePage() {
           </Link>
           <Link
             href="/how-to-set-wallpaper"
+            prefetch={false}
             className="flex items-center gap-3 border-b border-rule px-4 py-3.5 no-underline"
           >
             <DeviceMobileIcon size={18} className="text-ink" />
@@ -129,6 +134,7 @@ export default async function MePage() {
           </Link>
           <Link
             href="/about"
+            prefetch={false}
             className="flex items-center gap-3 border-b border-rule px-4 py-3.5 no-underline"
           >
             <PawPrintIcon size={18} className="text-ink" />
